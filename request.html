@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Request Service — Rural Gas Supply Co.</title>
+  <meta name="description" content="Request propane delivery, tank installation, or service from Rural Gas Supply Co. — serving Tarrant, Parker & Wise Counties since 1946." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Barlow+Condensed:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --steel: #5B8DB8;
+      --red: #B22222;
+      --black: #1A1A1A;
+      --cream: #F5F0E8;
+      --white: #ffffff;
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: #0d0d0d;
+      color: var(--cream);
+      font-family: 'Barlow Condensed', sans-serif;
+      overflow-x: hidden;
+      cursor: none;
+      min-height: 100vh;
+    }
+
+    /* ── Noise ─────────────────────────────────────────────── */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9990;
+      opacity: 0.03;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      background-size: 200px 200px;
+    }
+
+    /* ── Cursor ─────────────────────────────────────────────── */
+    #cursor {
+      position: fixed;
+      width: 10px; height: 10px;
+      background: var(--cream);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      mix-blend-mode: difference;
+      transition: width 0.25s var(--ease-out), height 0.25s var(--ease-out);
+      will-change: transform;
+    }
+    #cursor.expanded { width: 40px; height: 40px; }
+
+    #cursor-ring {
+      position: fixed;
+      width: 36px; height: 36px;
+      border: 1px solid rgba(245,240,232,0.35);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9998;
+      transform: translate(-50%, -50%);
+      will-change: transform;
+    }
+
+    /* ── Top Bar ─────────────────────────────────────────────── */
+    #topbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 70px;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2.5rem;
+      background: rgba(13,13,13,0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(245,240,232,0.06);
+    }
+
+    .nav-logo img {
+      height: 38px;
+      filter: brightness(0) invert(1);
+    }
+
+    .nav-back {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.68rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(245,240,232,0.5);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: color 0.2s;
+    }
+    .nav-back:hover { color: var(--cream); }
+    .nav-back svg { stroke: currentColor; fill: none; }
+
+    /* ── Page Layout ─────────────────────────────────────────── */
+    .page-wrapper {
+      display: grid;
+      grid-template-columns: 40fr 60fr;
+      min-height: 100vh;
+      padding-top: 70px;
+    }
+
+    /* ── Left Panel ──────────────────────────────────────────── */
+    .left-panel {
+      position: sticky;
+      top: 70px;
+      height: calc(100vh - 70px);
+      background: var(--black);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 5vw 4vw;
+      overflow: hidden;
+    }
+
+    .left-panel-inner {}
+
+    .form-eyebrow {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.62rem;
+      font-weight: 600;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--steel);
+      margin-bottom: 1.5rem;
+    }
+
+    .form-headline {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 3.5vw, 3.8rem);
+      font-weight: 700;
+      color: var(--cream);
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+    }
+
+    .form-headline em {
+      font-style: italic;
+      color: var(--steel);
+    }
+
+    .form-subtext {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 300;
+      line-height: 1.7;
+      color: rgba(245,240,232,0.5);
+      max-width: 340px;
+    }
+
+    .left-contact {
+      border-top: 1px solid rgba(245,240,232,0.07);
+      padding-top: 2rem;
+    }
+
+    .left-contact p {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 300;
+      letter-spacing: 0.08em;
+      color: rgba(245,240,232,0.3);
+      line-height: 1.8;
+    }
+
+    .left-contact a {
+      color: rgba(245,240,232,0.6);
+      text-decoration: none;
+    }
+    .left-contact a:hover { color: var(--cream); }
+
+    .left-year-ghost {
+      position: absolute;
+      bottom: -3rem;
+      right: -2rem;
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(6rem, 12vw, 12rem);
+      font-weight: 900;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(91,141,184,0.08);
+      pointer-events: none;
+      line-height: 1;
+    }
+
+    /* ── Right Panel / Form ──────────────────────────────────── */
+    .right-panel {
+      padding: 5vw 6vw;
+      background: #0d0d0d;
+    }
+
+    .form-section-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.6rem;
+      font-weight: 600;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: rgba(245,240,232,0.25);
+      margin-bottom: 1.5rem;
+      margin-top: 3rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid rgba(245,240,232,0.06);
+    }
+
+    .form-section-title:first-child { margin-top: 0; }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .form-row.single { grid-template-columns: 1fr; }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(245,240,232,0.45);
+      transition: color 0.2s;
+    }
+
+    .field:focus-within label {
+      color: var(--steel);
+    }
+
+    input[type="text"],
+    input[type="tel"],
+    input[type="email"],
+    input[type="date"],
+    textarea,
+    select {
+      background: rgba(245,240,232,0.04);
+      border: 1px solid rgba(245,240,232,0.1);
+      border-radius: 0;
+      color: var(--cream);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1rem;
+      font-weight: 300;
+      padding: 0.85rem 1rem;
+      outline: none;
+      transition: border-color 0.2s, background 0.2s;
+      width: 100%;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      border-color: var(--steel);
+      background: rgba(91,141,184,0.04);
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+      color: rgba(245,240,232,0.2);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 110px;
+    }
+
+    select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpolyline points='0,0 6,8 12,0' fill='none' stroke='rgba(245,240,232,0.35)' stroke-width='1.5'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 1rem center;
+      padding-right: 2.5rem;
+      cursor: pointer;
+    }
+
+    select option {
+      background: var(--black);
+      color: var(--cream);
+    }
+
+    /* ── Toggle: New / Existing ──────────────────────────────── */
+    .toggle-group {
+      display: flex;
+      border: 1px solid rgba(245,240,232,0.1);
+      overflow: hidden;
+    }
+
+    .toggle-option {
+      flex: 1;
+      position: relative;
+    }
+
+    .toggle-option input[type="radio"] {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .toggle-option label {
+      display: block;
+      text-align: center;
+      padding: 0.85rem 1rem;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      cursor: pointer;
+      transition: background 0.25s, color 0.25s;
+      color: rgba(245,240,232,0.4);
+      text-transform: uppercase;
+      background: transparent;
+    }
+
+    .toggle-option input:checked + label {
+      background: var(--steel);
+      color: var(--white);
+    }
+
+    /* ── Preferred Contact Radio Chips ───────────────────────── */
+    .chip-group {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .chip {
+      position: relative;
+    }
+
+    .chip input[type="radio"] {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .chip label {
+      display: inline-block;
+      padding: 0.6rem 1.2rem;
+      border: 1px solid rgba(245,240,232,0.12);
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(245,240,232,0.4);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .chip input:checked + label {
+      border-color: var(--steel);
+      color: var(--steel);
+      background: rgba(91,141,184,0.08);
+    }
+
+    .chip label:hover {
+      border-color: rgba(245,240,232,0.3);
+      color: rgba(245,240,232,0.7);
+    }
+
+    /* ── Submit Button ───────────────────────────────────────── */
+    .submit-area {
+      margin-top: 3rem;
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    .btn-submit {
+      display: inline-block;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 0.75rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--cream);
+      padding: 1.1rem 2.8rem;
+      background: transparent;
+      border: 1px solid rgba(245,240,232,0.25);
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: color 0.3s, border-color 0.3s;
+    }
+
+    .btn-submit::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--red);
+      transform: translateX(-101%);
+      transition: transform 0.45s var(--ease-out);
+      z-index: -1;
+    }
+
+    .btn-submit:hover::before { transform: translateX(0); }
+    .btn-submit:hover { border-color: var(--red); }
+
+    .submit-note {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 300;
+      letter-spacing: 0.1em;
+      color: rgba(245,240,232,0.25);
+      font-style: italic;
+    }
+
+    /* ── Success State ───────────────────────────────────────── */
+    #success-state {
+      display: none;
+      padding: 5vw 6vw;
+      min-height: calc(100vh - 70px);
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      text-align: center;
+      background: #0d0d0d;
+    }
+
+    #success-state.visible {
+      display: flex;
+    }
+
+    .success-check {
+      width: 56px; height: 56px;
+      border: 1px solid var(--steel);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 2.5rem;
+    }
+
+    .success-check svg {
+      stroke: var(--steel);
+      fill: none;
+      stroke-width: 1.5;
+    }
+
+    .success-headline {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      font-weight: 700;
+      color: var(--cream);
+      margin-bottom: 1rem;
+    }
+
+    .success-sub {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1rem;
+      font-weight: 300;
+      color: rgba(245,240,232,0.5);
+      max-width: 380px;
+      line-height: 1.7;
+      margin-bottom: 2.5rem;
+    }
+
+    .btn-home {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 600;
+      font-size: 0.68rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--cream);
+      text-decoration: none;
+      padding: 0.8rem 2rem;
+      border: 1px solid rgba(245,240,232,0.2);
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .btn-home:hover { border-color: var(--cream); }
+
+    /* ── Responsive ─────────────────────────────────────────── */
+    @media (max-width: 768px) {
+      .page-wrapper { grid-template-columns: 1fr; }
+      .left-panel { position: relative; top: auto; height: auto; min-height: auto; }
+      .form-row { grid-template-columns: 1fr; }
+      .right-panel { padding: 3rem 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="cursor"></div>
+  <div id="cursor-ring"></div>
+
+  <!-- Top Bar -->
+  <header id="topbar">
+    <div class="nav-logo">
+      <a href="/"><img src="/assets/images/logo.png" alt="Rural Gas Supply Co." /></a>
+    </div>
+    <a href="/" class="nav-back">
+      <svg width="14" height="14" viewBox="0 0 14 14" stroke-width="1.5"><line x1="12" y1="7" x2="2" y2="7"/><polyline points="5,3 1,7 5,11"/></svg>
+      Back to Home
+    </a>
+  </header>
+
+  <div class="page-wrapper">
+
+    <!-- Left Panel -->
+    <aside class="left-panel">
+      <div class="left-panel-inner">
+        <p class="form-eyebrow">Azle, Texas · Since 1946</p>
+        <h1 class="form-headline">
+          Let's get<br>
+          <em>your service</em><br>
+          scheduled.
+        </h1>
+        <p class="form-subtext">
+          Fill out the form and we'll be in touch within 24 hours. Prefer to call? We're always here.
+        </p>
+      </div>
+      <div class="left-contact">
+        <p>
+          <a href="tel:+18174443150">(817) 444-3150</a><br>
+          Azle, Texas 76020<br>
+          Mon – Fri, 8am – 5pm
+        </p>
+      </div>
+      <div class="left-year-ghost" aria-hidden="true">1946</div>
+    </aside>
+
+    <!-- Right Panel: Form -->
+    <main class="right-panel" id="form-panel">
+      <form id="service-form" novalidate>
+
+        <!-- Contact Info -->
+        <p class="form-section-title">Your Information</p>
+        <div class="form-row">
+          <div class="field">
+            <label for="full-name">Full Name</label>
+            <input type="text" id="full-name" name="full_name" placeholder="Jane Smith" required autocomplete="name" />
+          </div>
+          <div class="field">
+            <label for="phone">Phone Number</label>
+            <input type="tel" id="phone" name="phone" placeholder="(817) 555-0100" required autocomplete="tel" />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="field">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" placeholder="jane@example.com" autocomplete="email" />
+          </div>
+          <div class="field">
+            <label for="address">Service Address</label>
+            <input type="text" id="address" name="address" placeholder="123 Ranch Rd, Azle TX" required autocomplete="street-address" />
+          </div>
+        </div>
+
+        <!-- Customer Type -->
+        <p class="form-section-title">Account Type</p>
+        <div class="field" style="margin-bottom:1.25rem;">
+          <label>Are you a new or existing customer?</label>
+          <div class="toggle-group" role="radiogroup" aria-label="Customer type">
+            <div class="toggle-option">
+              <input type="radio" id="new-customer" name="customer_type" value="new" checked />
+              <label for="new-customer">New Customer</label>
+            </div>
+            <div class="toggle-option">
+              <input type="radio" id="existing-customer" name="customer_type" value="existing" />
+              <label for="existing-customer">Existing Customer</label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Service Type -->
+        <p class="form-section-title">Service Details</p>
+        <div class="form-row">
+          <div class="field">
+            <label for="service-type">Service Type</label>
+            <select id="service-type" name="service_type" required>
+              <option value="" disabled selected>Select a service</option>
+              <option value="delivery">Propane Delivery</option>
+              <option value="installation">Tank Installation</option>
+              <option value="leasing">Tank Leasing</option>
+              <option value="refill">Cylinder Refill</option>
+              <option value="repair">Repair &amp; Maintenance</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="tank-size">Tank Size</label>
+            <select id="tank-size" name="tank_size">
+              <option value="" disabled selected>Select tank size</option>
+              <option value="unknown">I don't know</option>
+              <option value="120">120 gallon</option>
+              <option value="250">250 gallon</option>
+              <option value="500">500 gallon</option>
+              <option value="1000">1,000 gallon</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Contact Preference -->
+        <div class="field" style="margin-bottom:1.25rem;">
+          <label>Preferred Contact Method</label>
+          <div class="chip-group" role="radiogroup" aria-label="Preferred contact">
+            <div class="chip">
+              <input type="radio" id="contact-phone" name="contact_method" value="phone" checked />
+              <label for="contact-phone">Phone</label>
+            </div>
+            <div class="chip">
+              <input type="radio" id="contact-email" name="contact_method" value="email" />
+              <label for="contact-email">Email</label>
+            </div>
+            <div class="chip">
+              <input type="radio" id="contact-either" name="contact_method" value="either" />
+              <label for="contact-either">Either</label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dates & Notes -->
+        <div class="form-row">
+          <div class="field">
+            <label for="date-start">Preferred Date Range — Start</label>
+            <input type="date" id="date-start" name="date_start" />
+          </div>
+          <div class="field">
+            <label for="date-end">Preferred Date Range — End</label>
+            <input type="date" id="date-end" name="date_end" />
+          </div>
+        </div>
+
+        <div class="form-row single">
+          <div class="field">
+            <label for="notes">Additional Notes</label>
+            <textarea id="notes" name="notes" placeholder="Gate codes, access instructions, specific concerns, or anything else we should know..."></textarea>
+          </div>
+        </div>
+
+        <!-- Submit -->
+        <div class="submit-area">
+          <button type="submit" class="btn-submit">Send Request</button>
+          <span class="submit-note">We'll respond within 24 business hours.</span>
+        </div>
+
+      </form>
+    </main>
+
+    <!-- Success State (hidden until submit) -->
+    <div id="success-state" role="alert" aria-live="polite">
+      <div class="success-check">
+        <svg width="22" height="22" viewBox="0 0 22 22"><polyline points="4,12 9,17 18,7"/></svg>
+      </div>
+      <h2 class="success-headline">Request received.</h2>
+      <p class="success-sub">
+        Your request has been received. We'll be in touch within 24 hours. If it's urgent, call us at <a href="tel:+18174443150" style="color:var(--steel)">(817) 444-3150</a>.
+      </p>
+      <a href="/" class="btn-home">Back to Home</a>
+    </div>
+
+  </div><!-- /page-wrapper -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script>
+    /* ── Custom Cursor ─────────────────────────────────────── */
+    const cursor = document.getElementById('cursor');
+    const cursorRing = document.getElementById('cursor-ring');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+
+    document.addEventListener('mousemove', e => {
+      mx = e.clientX; my = e.clientY;
+      gsap.set(cursor, { x: mx, y: my });
+    });
+
+    gsap.ticker.add(() => {
+      rx += (mx - rx) * 0.12;
+      ry += (my - ry) * 0.12;
+      gsap.set(cursorRing, { x: rx, y: ry });
+    });
+
+    document.querySelectorAll('a, button, input, select, textarea, label').forEach(el => {
+      el.addEventListener('mouseenter', () => cursor.classList.add('expanded'));
+      el.addEventListener('mouseleave', () => cursor.classList.remove('expanded'));
+    });
+
+    /* ── Form Submit → Success ─────────────────────────────── */
+    const form = document.getElementById('service-form');
+    const formPanel = document.getElementById('form-panel');
+    const successState = document.getElementById('success-state');
+
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+
+      const name = document.getElementById('full-name').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const address = document.getElementById('address').value.trim();
+      const service = document.getElementById('service-type').value;
+
+      if (!name || !phone || !address || !service) {
+        // Basic inline validation — highlight empty required fields
+        [
+          { id: 'full-name', val: name },
+          { id: 'phone', val: phone },
+          { id: 'address', val: address },
+          { id: 'service-type', val: service }
+        ].forEach(({ id, val }) => {
+          const el = document.getElementById(id);
+          if (!val) {
+            el.style.borderColor = 'rgba(178,34,34,0.6)';
+            el.addEventListener('input', () => el.style.borderColor = '', { once: true });
+            el.addEventListener('change', () => el.style.borderColor = '', { once: true });
+          }
+        });
+        return;
+      }
+
+      // Animate out form, animate in success
+      gsap.to(formPanel, {
+        opacity: 0,
+        y: -20,
+        duration: 0.5,
+        ease: 'power2.in',
+        onComplete: () => {
+          formPanel.style.display = 'none';
+          successState.classList.add('visible');
+          gsap.fromTo(successState,
+            { opacity: 0, y: 30 },
+            { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }
+          );
+        }
+      });
+    });
+
+    /* ── Magnetic Submit ───────────────────────────────────── */
+    const submitBtn = document.querySelector('.btn-submit');
+    submitBtn.addEventListener('mousemove', e => {
+      const r = submitBtn.getBoundingClientRect();
+      const dx = e.clientX - (r.left + r.width / 2);
+      const dy = e.clientY - (r.top + r.height / 2);
+      gsap.to(submitBtn, { x: dx * 0.2, y: dy * 0.2, duration: 0.3, ease: 'power2.out' });
+    });
+    submitBtn.addEventListener('mouseleave', () => {
+      gsap.to(submitBtn, { x: 0, y: 0, duration: 0.5, ease: 'elastic.out(1, 0.4)' });
+    });
+
+    /* ── Page Entrance Animation ───────────────────────────── */
+    gsap.from('.left-panel', {
+      x: -40, opacity: 0, duration: 1, ease: 'power3.out', delay: 0.1
+    });
+    gsap.from('.right-panel', {
+      x: 40, opacity: 0, duration: 1, ease: 'power3.out', delay: 0.2
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,1615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rural Gas Supply Co. — Propane Delivery · Azle, Texas · Since 1946</title>
+  <meta name="description" content="Family-owned propane delivery serving Tarrant, Parker & Wise Counties since 1946. Residential, commercial, and agricultural propane. Azle, Texas." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Barlow+Condensed:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    /* ── Reset & Custom Properties ───────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --steel: #5B8DB8;
+      --red: #B22222;
+      --black: #1A1A1A;
+      --cream: #F5F0E8;
+      --cream-dim: rgba(245,240,232,0.08);
+      --white: #ffffff;
+      --nav-h: 72px;
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    html { scroll-behavior: auto; }
+
+    body {
+      background: #0d0d0d;
+      color: var(--cream);
+      font-family: 'Barlow Condensed', sans-serif;
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* ── Custom Cursor ───────────────────────────────────────── */
+    #cursor {
+      position: fixed;
+      width: 10px; height: 10px;
+      background: var(--cream);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: width 0.25s var(--ease-out), height 0.25s var(--ease-out), background 0.2s;
+      mix-blend-mode: difference;
+      will-change: transform;
+    }
+    #cursor.expanded {
+      width: 40px; height: 40px;
+    }
+    #cursor-ring {
+      position: fixed;
+      width: 36px; height: 36px;
+      border: 1px solid rgba(245,240,232,0.4);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: width 0.4s var(--ease-out), height 0.4s var(--ease-out), opacity 0.3s;
+      will-change: transform;
+    }
+
+    /* ── Noise Grain Overlay ─────────────────────────────────── */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9990;
+      opacity: 0.035;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      background-size: 200px 200px;
+    }
+
+    /* ── Hero Section ────────────────────────────────────────── */
+    #hero {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      background: #0d0d0d;
+    }
+
+    #hero-video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      z-index: 1;
+    }
+
+    /* fallback poster if video fails */
+    #hero-fallback {
+      position: absolute;
+      inset: 0;
+      background: url('/assets/images/logo.png') center/contain no-repeat, #1A1A1A;
+      z-index: 0;
+    }
+
+    /* All hero UI layers — hidden until video ends */
+    .hero-ui { opacity: 0; pointer-events: none; }
+
+    /* ── Top Navigation Bar ──────────────────────────────────── */
+    #topbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: var(--nav-h);
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2.5rem;
+      background: rgba(26,26,26,0.72);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(245,240,232,0.06);
+      transform: translateY(-80px);
+      will-change: transform;
+    }
+
+    #topbar.nav-scrolled {
+      background: rgba(26,26,26,0.95);
+    }
+
+    .nav-logo img {
+      height: 40px;
+      width: auto;
+      filter: brightness(0) invert(1);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 500;
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(245,240,232,0.75);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--cream); }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .nav-phone {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 400;
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      color: rgba(245,240,232,0.6);
+      text-transform: uppercase;
+    }
+
+    .btn-cta {
+      display: inline-block;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 600;
+      font-size: 0.68rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--cream);
+      text-decoration: none;
+      padding: 0.6rem 1.4rem;
+      border: 1px solid rgba(245,240,232,0.3);
+      position: relative;
+      overflow: hidden;
+      transition: color 0.3s;
+    }
+
+    .btn-cta::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--red);
+      transform: translateX(-101%);
+      transition: transform 0.4s var(--ease-out);
+      z-index: -1;
+    }
+    .btn-cta:hover::before { transform: translateX(0); }
+    .btn-cta:hover { border-color: var(--red); }
+
+    /* ── Hero Quote Block ────────────────────────────────────── */
+    #hero-quote {
+      position: absolute;
+      left: 5vw;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 10;
+      max-width: 55vw;
+    }
+
+    .quote-line {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.4rem, 5.5vw, 5rem);
+      font-weight: 700;
+      line-height: 1.1;
+      color: var(--white);
+      display: none;
+    }
+    .quote-line.active { display: block; }
+
+    /* ── Scroll Indicator ────────────────────────────────────── */
+    #scroll-indicator {
+      position: absolute;
+      bottom: 2.5rem;
+      right: 3rem;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .scroll-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: rgba(245,240,232,0.5);
+      writing-mode: vertical-rl;
+    }
+
+    .scroll-circle {
+      width: 42px; height: 42px;
+      border: 1px solid rgba(245,240,232,0.3);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: breathe 2.4s ease-in-out infinite;
+    }
+
+    .scroll-circle svg {
+      width: 14px;
+      stroke: rgba(245,240,232,0.7);
+      fill: none;
+      stroke-width: 1.5;
+    }
+
+    @keyframes breathe {
+      0%, 100% { transform: scale(1); opacity: 0.6; }
+      50% { transform: scale(1.12); opacity: 1; }
+    }
+
+    /* ── Hero Stat Line ──────────────────────────────────────── */
+    #hero-stat {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 5vw;
+      z-index: 10;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.62rem;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(245,240,232,0.5);
+    }
+
+    /* ── Marquee Ticker ──────────────────────────────────────── */
+    #marquee {
+      background: var(--red);
+      padding: 0.85rem 0;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    .marquee-track {
+      display: inline-flex;
+      animation: marquee 28s linear infinite;
+    }
+
+    .marquee-track span {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--white);
+      padding: 0 2rem;
+    }
+
+    .marquee-dot {
+      color: rgba(255,255,255,0.5);
+    }
+
+    @keyframes marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ── Heritage Section ────────────────────────────────────── */
+    #heritage {
+      position: relative;
+      background: var(--black);
+      padding: 10vw 5vw 10vw;
+      overflow: hidden;
+    }
+
+    .heritage-inner {
+      display: grid;
+      grid-template-columns: 60fr 40fr;
+      gap: 5vw;
+      align-items: start;
+      position: relative;
+    }
+
+    .heritage-left {
+      position: relative;
+    }
+
+    .year-ghost {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(8rem, 20vw, 20rem);
+      font-weight: 900;
+      line-height: 0.85;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(91,141,184,0.25);
+      position: absolute;
+      top: -2rem;
+      left: -1rem;
+      pointer-events: none;
+      z-index: 0;
+      transition: color 0.1s;
+      will-change: color;
+    }
+
+    .heritage-content {
+      position: relative;
+      z-index: 1;
+      padding-top: 6rem;
+    }
+
+    .section-eyebrow {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--steel);
+      margin-bottom: 1.5rem;
+    }
+
+    .heritage-headline {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.4rem, 4.5vw, 4.5rem);
+      font-weight: 700;
+      line-height: 1.1;
+      color: var(--cream);
+      margin-bottom: 2.5rem;
+    }
+
+    .heritage-headline em {
+      font-style: italic;
+      color: var(--steel);
+    }
+
+    .heritage-body {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 300;
+      line-height: 1.7;
+      color: rgba(245,240,232,0.65);
+      max-width: 500px;
+    }
+
+    .heritage-body p + p { margin-top: 1.2rem; }
+
+    .heritage-body strong {
+      font-weight: 600;
+      color: var(--cream);
+    }
+
+    .heritage-right {
+      padding-top: 8rem;
+    }
+
+    .heritage-image-frame {
+      position: relative;
+      clip-path: inset(100% 0 0 0);
+      will-change: clip-path;
+    }
+
+    .heritage-image-inner {
+      background: var(--steel);
+      aspect-ratio: 3/4;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .heritage-image-inner::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 40px,
+          rgba(26,26,26,0.08) 40px,
+          rgba(26,26,26,0.08) 41px
+        );
+    }
+
+    /* placeholder SVG truck silhouette */
+    .truck-silhouette {
+      width: 80%;
+      opacity: 0.2;
+    }
+
+    .heritage-caption {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.62rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(245,240,232,0.5);
+      margin-top: 1.5rem;
+      text-align: center;
+    }
+
+    /* ── Services Horizontal Scroll ──────────────────────────── */
+    #services-wrapper {
+      position: relative;
+    }
+
+    #services-pin {
+      overflow: hidden;
+      height: 100vh;
+    }
+
+    #services-track {
+      display: flex;
+      height: 100vh;
+      will-change: transform;
+    }
+
+    .service-panel {
+      flex-shrink: 0;
+      width: 100vw;
+      height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .service-panel:nth-child(even) .panel-content { order: 2; }
+    .service-panel:nth-child(even) .panel-visual { order: 1; }
+
+    .panel-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 8vw 6vw;
+      background: var(--black);
+      position: relative;
+    }
+
+    .panel-number {
+      font-family: 'Playfair Display', serif;
+      font-size: 0.85rem;
+      color: var(--steel);
+      letter-spacing: 0.15em;
+      margin-bottom: 2rem;
+      opacity: 0.6;
+    }
+
+    .panel-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 3.5vw, 3.5rem);
+      font-weight: 700;
+      color: var(--cream);
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+      clip-path: inset(0 100% 0 0);
+      will-change: clip-path;
+    }
+
+    .panel-desc {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1rem;
+      font-weight: 300;
+      line-height: 1.7;
+      color: rgba(245,240,232,0.6);
+      max-width: 340px;
+      margin-bottom: 2rem;
+    }
+
+    .panel-link {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--steel);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: gap 0.3s;
+    }
+    .panel-link:hover { gap: 1rem; }
+    .panel-link svg { stroke: currentColor; fill: none; }
+
+    .panel-visual {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .panel-bg {
+      position: absolute;
+      inset: 0;
+      will-change: transform;
+    }
+
+    /* Each service gets a distinct color treatment */
+    .svc-residential .panel-bg { background: linear-gradient(135deg, #1e2d3d 0%, #2a4060 100%); }
+    .svc-commercial  .panel-bg { background: linear-gradient(135deg, #2d1a1a 0%, #4a2020 100%); }
+    .svc-agricultural .panel-bg { background: linear-gradient(135deg, #1a2d1a 0%, #2a4a2a 100%); }
+    .svc-installation .panel-bg { background: linear-gradient(135deg, #1e1e2d 0%, #2a2a45 100%); }
+    .svc-leasing .panel-bg { background: linear-gradient(135deg, #2d2a1a 0%, #4a401a 100%); }
+    .svc-cylinder .panel-bg { background: linear-gradient(135deg, #1a2a2d 0%, #1a3e45 100%); }
+
+    .panel-icon {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      opacity: 0.12;
+    }
+
+    .panel-icon svg {
+      width: clamp(120px, 18vw, 220px);
+      stroke: var(--cream);
+      fill: none;
+      stroke-width: 0.5;
+    }
+
+    .services-progress {
+      position: fixed;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 0.5rem;
+      z-index: 50;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .services-progress.visible { opacity: 1; }
+
+    .prog-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: rgba(245,240,232,0.2);
+      transition: background 0.3s, transform 0.3s;
+    }
+    .prog-dot.active {
+      background: var(--cream);
+      transform: scale(1.3);
+    }
+
+    .services-header-pin {
+      position: absolute;
+      top: 3rem;
+      left: 5vw;
+      z-index: 20;
+    }
+
+    .services-header-pin h2 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: rgba(245,240,232,0.35);
+    }
+
+    /* ── Stats Section ───────────────────────────────────────── */
+    #stats {
+      background: var(--cream);
+      padding: 10vw 5vw;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 4vw;
+    }
+
+    .stat-item {
+      text-align: center;
+    }
+
+    .stat-number {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(4rem, 10vw, 10rem);
+      font-weight: 900;
+      color: var(--black);
+      line-height: 1;
+      display: block;
+    }
+
+    .stat-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: rgba(26,26,26,0.45);
+      margin-top: 0.75rem;
+      display: block;
+    }
+
+    .stat-divider {
+      width: 1px;
+      height: 80%;
+      background: rgba(26,26,26,0.12);
+      align-self: center;
+      justify-self: center;
+    }
+
+    /* ── Service Area ────────────────────────────────────────── */
+    #service-area {
+      background: var(--black);
+      padding: 10vw 5vw;
+      display: grid;
+      grid-template-columns: 55fr 45fr;
+      gap: 6vw;
+      align-items: center;
+    }
+
+    .area-map {
+      position: relative;
+    }
+
+    .area-map svg {
+      width: 100%;
+      height: auto;
+    }
+
+    /* Texas county paths */
+    .county-path {
+      fill: rgba(91,141,184,0.08);
+      stroke: rgba(91,141,184,0.2);
+      stroke-width: 0.5;
+    }
+
+    .county-tarrant {
+      fill: rgba(91,141,184,0);
+      stroke: var(--steel);
+      stroke-width: 0.8;
+      transition: fill 1.2s ease;
+    }
+    .county-parker {
+      fill: rgba(178,34,34,0);
+      stroke: var(--red);
+      stroke-width: 0.8;
+      transition: fill 1.2s ease 0.3s;
+    }
+    .county-wise {
+      fill: rgba(91,141,184,0);
+      stroke: var(--steel);
+      stroke-width: 0.8;
+      transition: fill 1.2s ease 0.6s;
+    }
+
+    .county-tarrant.lit { fill: rgba(91,141,184,0.35); }
+    .county-parker.lit  { fill: rgba(178,34,34,0.35); }
+    .county-wise.lit    { fill: rgba(91,141,184,0.25); }
+
+    .area-right {}
+
+    .area-headline {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.2rem, 4vw, 4rem);
+      font-weight: 700;
+      color: var(--cream);
+      line-height: 1.1;
+      margin-bottom: 2rem;
+    }
+
+    .area-headline em {
+      font-style: italic;
+      color: var(--steel);
+    }
+
+    .county-list {
+      list-style: none;
+      margin-bottom: 2.5rem;
+    }
+
+    .county-list li {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 400;
+      color: rgba(245,240,232,0.6);
+      padding: 0.9rem 0;
+      border-bottom: 1px solid rgba(245,240,232,0.07);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .county-list li::before {
+      content: '';
+      display: inline-block;
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--steel);
+      flex-shrink: 0;
+    }
+    .county-list li:nth-child(2)::before { background: var(--red); }
+
+    .area-note {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      color: rgba(245,240,232,0.3);
+      font-style: italic;
+    }
+
+    /* ── Phase 2 Teaser ──────────────────────────────────────── */
+    #phase2 {
+      background: #0d0d0d;
+      padding: 12vw 5vw;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    #phase2::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(91,141,184,0.05) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .phase2-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.62rem;
+      font-weight: 600;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--steel);
+      margin-bottom: 2.5rem;
+      opacity: 0;
+    }
+
+    .phase2-headline {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 5vw, 5rem);
+      font-weight: 700;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(245,240,232,0.35);
+      line-height: 1.15;
+      max-width: 800px;
+      margin: 0 auto 2rem;
+    }
+
+    .phase2-sub {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1rem;
+      font-weight: 300;
+      color: rgba(245,240,232,0.35);
+      letter-spacing: 0.05em;
+      opacity: 0;
+    }
+
+    /* ── Footer ──────────────────────────────────────────────── */
+    #footer {
+      background: var(--black);
+      border-top: 1px solid rgba(245,240,232,0.06);
+      padding: 4rem 5vw 2.5rem;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 3rem;
+      margin-bottom: 3rem;
+    }
+
+    .footer-logo img {
+      height: 52px;
+      width: auto;
+      filter: brightness(0) invert(1);
+      opacity: 0.8;
+      margin-bottom: 1rem;
+    }
+
+    .footer-tagline {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 300;
+      letter-spacing: 0.1em;
+      color: rgba(245,240,232,0.35);
+    }
+
+    .footer-heading {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.6rem;
+      font-weight: 600;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--steel);
+      margin-bottom: 1.2rem;
+    }
+
+    .footer-contact p {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 300;
+      color: rgba(245,240,232,0.5);
+      line-height: 1.8;
+    }
+
+    .footer-contact a {
+      color: rgba(245,240,232,0.7);
+      text-decoration: none;
+    }
+    .footer-contact a:hover { color: var(--cream); }
+
+    .footer-nav ul {
+      list-style: none;
+    }
+
+    .footer-nav li {
+      margin-bottom: 0.6rem;
+    }
+
+    .footer-nav a {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 300;
+      color: rgba(245,240,232,0.45);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-nav a:hover { color: var(--cream); }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(245,240,232,0.06);
+      padding-top: 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-bottom p {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.62rem;
+      font-weight: 300;
+      letter-spacing: 0.12em;
+      color: rgba(245,240,232,0.2);
+    }
+
+    .fb-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.62rem;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(245,240,232,0.3);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .fb-link:hover { color: var(--cream); }
+    .fb-link svg { stroke: currentColor; fill: none; }
+
+    /* ── Responsive ─────────────────────────────────────────── */
+    @media (max-width: 768px) {
+      .heritage-inner { grid-template-columns: 1fr; }
+      .heritage-right { display: none; }
+      .service-panel { grid-template-columns: 1fr; }
+      .panel-visual { height: 35vh; }
+      .stats-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .stat-divider { display: none; }
+      #service-area { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .nav-links { display: none; }
+      #hero-quote { max-width: 90vw; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Custom Cursor -->
+  <div id="cursor"></div>
+  <div id="cursor-ring"></div>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       HERO
+  ═══════════════════════════════════════════════════════════ -->
+  <section id="hero">
+    <div id="hero-fallback"></div>
+    <video
+      id="hero-video"
+      src="/assets/video/hero.mp4"
+      autoplay
+      muted
+      playsinline
+      preload="auto"
+    ></video>
+
+    <!-- Quote Block -->
+    <div id="hero-quote" class="hero-ui">
+      <p class="quote-line active" data-index="0">People you<br>can trust.</p>
+      <p class="quote-line" data-index="1">Fueling Texas<br>since 1946.</p>
+      <p class="quote-line" data-index="2">Rooted in Azle.<br>Trusted across Texas.</p>
+      <p class="quote-line" data-index="3">Family owned.<br>Community driven.</p>
+    </div>
+
+    <!-- Scroll Indicator -->
+    <div id="scroll-indicator" class="hero-ui">
+      <div class="scroll-circle">
+        <svg viewBox="0 0 14 14">
+          <polyline points="2,4 7,10 12,4" />
+        </svg>
+      </div>
+      <span class="scroll-label">Scroll</span>
+    </div>
+
+    <!-- Stat Line -->
+    <div id="hero-stat" class="hero-ui">
+      Established 1946 &nbsp;·&nbsp; Azle, Texas &nbsp;·&nbsp; Serving Tarrant, Parker &amp; Wise Counties
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       TOP NAV (fixed, animates in after video)
+  ═══════════════════════════════════════════════════════════ -->
+  <header id="topbar" class="hero-ui" role="banner">
+    <div class="nav-logo">
+      <a href="/"><img src="/assets/images/logo.png" alt="Rural Gas Supply Co." /></a>
+    </div>
+    <nav aria-label="Main navigation">
+      <ul class="nav-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="#services-wrapper">Services</a></li>
+        <li><a href="#service-area">Service Area</a></li>
+        <li><a href="request.html">Request Service</a></li>
+      </ul>
+    </nav>
+    <div class="nav-right">
+      <span class="nav-phone">Call Us: (817) 444-3150</span>
+      <a href="request.html" class="btn-cta">Request Service</a>
+    </div>
+  </header>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       MARQUEE TICKER
+  ═══════════════════════════════════════════════════════════ -->
+  <div id="marquee" aria-hidden="true">
+    <div class="marquee-track">
+      <span>Propane Delivery</span><span class="marquee-dot">·</span>
+      <span>Azle, Texas</span><span class="marquee-dot">·</span>
+      <span>Family Owned Since 1946</span><span class="marquee-dot">·</span>
+      <span>Residential</span><span class="marquee-dot">·</span>
+      <span>Commercial</span><span class="marquee-dot">·</span>
+      <span>Agricultural</span><span class="marquee-dot">·</span>
+      <span>Tank Leasing</span><span class="marquee-dot">·</span>
+      <span>Cylinder Refills</span><span class="marquee-dot">·</span>
+      <span>Propane Delivery</span><span class="marquee-dot">·</span>
+      <span>Azle, Texas</span><span class="marquee-dot">·</span>
+      <span>Family Owned Since 1946</span><span class="marquee-dot">·</span>
+      <span>Residential</span><span class="marquee-dot">·</span>
+      <span>Commercial</span><span class="marquee-dot">·</span>
+      <span>Agricultural</span><span class="marquee-dot">·</span>
+      <span>Tank Leasing</span><span class="marquee-dot">·</span>
+      <span>Cylinder Refills</span><span class="marquee-dot">·</span>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       HERITAGE / ABOUT
+  ═══════════════════════════════════════════════════════════ -->
+  <section id="heritage" aria-label="Our heritage">
+    <div class="heritage-inner">
+      <div class="heritage-left">
+        <div class="year-ghost" id="year-ghost" aria-hidden="true">1946</div>
+        <div class="heritage-content">
+          <p class="section-eyebrow">Est. 1946 — Azle, Texas</p>
+          <h2 class="heritage-headline">
+            A family's promise,<br>
+            <em>kept for generations.</em>
+          </h2>
+          <div class="heritage-body">
+            <p>When Rural Gas Supply Co. delivered its first tank of propane to a farmhouse outside Azle in 1946, it made a simple promise: <strong>show up, every time.</strong></p>
+            <p>Nearly eight decades later, that promise hasn't changed. We're still family-owned. Still based in Azle. Still the people your neighbors call when the tank runs low on a cold January morning.</p>
+            <p>Three generations of the same family. <strong>Tarrant, Parker, and Wise Counties.</strong> Thousands of customers who trust us because their parents did.</p>
+          </div>
+        </div>
+      </div>
+      <div class="heritage-right">
+        <div class="heritage-image-frame" id="heritage-frame">
+          <div class="heritage-image-inner">
+            <!-- Truck SVG placeholder — swap with real photo -->
+            <svg class="truck-silhouette" viewBox="0 0 200 100" fill="none" stroke="currentColor" stroke-width="1.5">
+              <rect x="10" y="50" width="110" height="40" rx="2"/>
+              <rect x="120" y="30" width="70" height="60" rx="2"/>
+              <circle cx="40" cy="92" r="8"/>
+              <circle cx="90" cy="92" r="8"/>
+              <circle cx="155" cy="92" r="8"/>
+              <rect x="120" y="38" width="50" height="25" rx="1" opacity="0.4"/>
+              <line x1="10" y1="68" x2="120" y2="68"/>
+            </svg>
+            <p class="heritage-caption">Rural Gas Supply Co. fleet — Azle, Texas</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       SERVICES — HORIZONTAL SCROLL
+  ═══════════════════════════════════════════════════════════ -->
+  <div id="services-wrapper" aria-label="Our services">
+    <div id="services-pin">
+      <div class="services-header-pin">
+        <h2>Services</h2>
+      </div>
+      <div id="services-track">
+
+        <!-- Panel 1: Residential -->
+        <div class="service-panel svc-residential">
+          <div class="panel-content">
+            <span class="panel-number">01 / 06</span>
+            <h3 class="panel-title">Residential<br>Propane</h3>
+            <p class="panel-desc">Keep your home warm all winter. We deliver directly to your tank on a schedule that fits your life — automatic delivery available for worry-free service year-round.</p>
+            <a href="request.html" class="panel-link">
+              Request Delivery
+              <svg width="16" height="16" viewBox="0 0 16 16"><line x1="2" y1="8" x2="14" y2="8"/><polyline points="9,3 14,8 9,13"/></svg>
+            </a>
+          </div>
+          <div class="panel-visual">
+            <div class="panel-bg"></div>
+            <div class="panel-icon">
+              <svg viewBox="0 0 100 100">
+                <path d="M20 80V40l30-20 30 20v40H20z"/>
+                <rect x="38" y="55" width="14" height="25" rx="1"/>
+                <path d="M35 40h10M55 40h10"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- Panel 2: Commercial -->
+        <div class="service-panel svc-commercial">
+          <div class="panel-visual">
+            <div class="panel-bg"></div>
+            <div class="panel-icon">
+              <svg viewBox="0 0 100 100">
+                <rect x="15" y="25" width="70" height="60" rx="1"/>
+                <rect x="25" y="35" width="15" height="15" rx="1"/>
+                <rect x="60" y="35" width="15" height="15" rx="1"/>
+                <rect x="40" y="55" width="20" height="30"/>
+                <path d="M15 25L50 10 85 25"/>
+              </svg>
+            </div>
+          </div>
+          <div class="panel-content">
+            <span class="panel-number">02 / 06</span>
+            <h3 class="panel-title">Commercial<br>Propane</h3>
+            <p class="panel-desc">Restaurants, warehouses, manufacturing facilities. We understand that your business can't afford downtime. Reliable bulk delivery and responsive service contracts available.</p>
+            <a href="request.html" class="panel-link">
+              Get a Quote
+              <svg width="16" height="16" viewBox="0 0 16 16"><line x1="2" y1="8" x2="14" y2="8"/><polyline points="9,3 14,8 9,13"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Panel 3: Agricultural -->
+        <div class="service-panel svc-agricultural">
+          <div class="panel-content">
+            <span class="panel-number">03 / 06</span>
+            <h3 class="panel-title">Agricultural<br>Propane</h3>
+            <p class="panel-desc">Crop drying, irrigation engines, livestock operations, grain elevators. We've served the ranches and farms of North Texas for generations. Bulk pricing for high-volume ag customers.</p>
+            <a href="request.html" class="panel-link">
+              Ag Pricing
+              <svg width="16" height="16" viewBox="0 0 16 16"><line x1="2" y1="8" x2="14" y2="8"/><polyline points="9,3 14,8 9,13"/></svg>
+            </a>
+          </div>
+          <div class="panel-visual">
+            <div class="panel-bg"></div>
+            <div class="panel-icon">
+              <svg viewBox="0 0 100 100">
+                <circle cx="50" cy="55" r="28"/>
+                <circle cx="50" cy="55" r="10"/>
+                <line x1="50" y1="27" x2="50" y2="10"/>
+                <line x1="50" y1="83" x2="50" y2="90"/>
+                <line x1="22" y1="55" x2="10" y2="55"/>
+                <line x1="78" y1="55" x2="90" y2="55"/>
+                <path d="M30 30L40 43M70 30L60 43M30 80L40 67M70 80L60 67"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- Panel 4: Tank Installation -->
+        <div class="service-panel svc-installation">
+          <div class="panel-visual">
+            <div class="panel-bg"></div>
+            <div class="panel-icon">
+              <svg viewBox="0 0 100 100">
+                <ellipse cx="50" cy="55" rx="35" ry="18"/>
+                <rect x="15" y="40" width="70" height="30" rx="18"/>
+                <line x1="50" y1="22" x2="50" y2="10"/>
+                <circle cx="50" cy="8" r="4"/>
+                <line x1="30" y1="75" x2="25" y2="88"/>
+                <line x1="70" y1="75" x2="75" y2="88"/>
+              </svg>
+            </div>
+          </div>
+          <div class="panel-content">
+            <span class="panel-number">04 / 06</span>
+            <h3 class="panel-title">Tank<br>Installation</h3>
+            <p class="panel-desc">New construction or switching providers, we handle the full installation — site assessment, permits, placement, and connection. Above-ground and underground options available.</p>
+            <a href="request.html" class="panel-link">
+              Schedule Install
+              <svg width="16" height="16" viewBox="0 0 16 16"><line x1="2" y1="8" x2="14" y2="8"/><polyline points="9,3 14,8 9,13"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Panel 5: Tank Leasing -->
+        <div class="service-panel svc-leasing">
+          <div class="panel-content">
+            <span class="panel-number">05 / 06</span>
+            <h3 class="panel-title">Tank<br>Leasing</h3>
+            <p class="panel-desc">No large upfront cost. Lease your propane tank from us and we handle maintenance, inspections, and any required replacements. Simple, predictable, and backed by our service team.</p>
+            <a href="request.html" class="panel-link">
+              Lease Terms
+              <svg width="16" height="16" viewBox="0 0 16 16"><line x1="2" y1="8" x2="14" y2="8"/><polyline points="9,3 14,8 9,13"/></svg>
+            </a>
+          </div>
+          <div class="panel-visual">
+            <div class="panel-bg"></div>
+            <div class="panel-icon">
+              <svg viewBox="0 0 100 100">
+                <path d="M50 20 L80 35 L80 65 L50 80 L20 65 L20 35 Z"/>
+                <circle cx="50" cy="50" r="12"/>
+                <line x1="50" y1="38" x2="50" y2="20"/>
+                <line x1="50" y1="62" x2="50" y2="80"/>
+                <line x1="38" y1="50" x2="20" y2="50"/>
+                <line x1="62" y1="50" x2="80" y2="50"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- Panel 6: Cylinder Refills -->
+        <div class="service-panel svc-cylinder">
+          <div class="panel-visual">
+            <div class="panel-bg"></div>
+            <div class="panel-icon">
+              <svg viewBox="0 0 100 100">
+                <rect x="35" y="20" width="30" height="60" rx="15"/>
+                <rect x="42" y="12" width="16" height="12" rx="3"/>
+                <line x1="50" y1="8" x2="50" y2="12"/>
+                <circle cx="50" cy="6" r="3"/>
+                <line x1="20" y1="50" x2="35" y2="50" stroke-dasharray="3,3"/>
+                <line x1="65" y1="50" x2="80" y2="50" stroke-dasharray="3,3"/>
+              </svg>
+            </div>
+          </div>
+          <div class="panel-content">
+            <span class="panel-number">06 / 06</span>
+            <h3 class="panel-title">Cylinder<br>Refills</h3>
+            <p class="panel-desc">From 20-pound grill tanks to 100-pound forklift cylinders. Drop off, fill up, get back to work. Quick turnaround. Fair pricing. Located in Azle for easy access.</p>
+            <a href="request.html" class="panel-link">
+              Find Us
+              <svg width="16" height="16" viewBox="0 0 16 16"><line x1="2" y1="8" x2="14" y2="8"/><polyline points="9,3 14,8 9,13"/></svg>
+            </a>
+          </div>
+        </div>
+
+      </div><!-- /services-track -->
+    </div><!-- /services-pin -->
+
+    <!-- Progress dots -->
+    <div class="services-progress" id="services-progress" aria-hidden="true">
+      <div class="prog-dot active"></div>
+      <div class="prog-dot"></div>
+      <div class="prog-dot"></div>
+      <div class="prog-dot"></div>
+      <div class="prog-dot"></div>
+      <div class="prog-dot"></div>
+    </div>
+  </div><!-- /services-wrapper -->
+
+  <!-- ═══════════════════════════════════════════════════════════
+       STATS
+  ═══════════════════════════════════════════════════════════ -->
+  <section id="stats" aria-label="By the numbers">
+    <div class="stats-grid">
+      <div class="stat-item">
+        <span class="stat-number" data-target="1946" data-prefix="" id="stat-year">1946</span>
+        <span class="stat-label">Founded</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-item">
+        <span class="stat-number" data-target="3" id="stat-counties">0</span>
+        <span class="stat-label">Counties Served</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-item">
+        <span class="stat-number" data-target="78" id="stat-years">0</span>
+        <span class="stat-label">Years of Trust</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       SERVICE AREA
+  ═══════════════════════════════════════════════════════════ -->
+  <section id="service-area" aria-label="Service area">
+    <div class="area-map">
+      <!-- Simplified Texas SVG with county approximations -->
+      <svg viewBox="0 0 500 520" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Texas outline (simplified) -->
+        <path d="M120,20 L380,20 L400,60 L420,80 L440,100 L460,140 L480,180 L490,220 L480,260 L460,300 L440,360 L420,400 L400,440 L380,480 L360,500 L340,510 L300,515 L260,510 L240,490 L220,480 L200,460 L180,440 L160,410 L140,380 L100,360 L60,340 L40,300 L30,260 L20,220 L20,180 L30,140 L40,100 L60,70 L80,40 Z"
+          class="county-path" opacity="0.15"/>
+
+        <!-- Tarrant County (approximate — center-north, Fort Worth area) -->
+        <path id="tarrant" class="county-tarrant"
+          d="M220,160 L280,155 L290,185 L295,215 L280,225 L260,230 L240,225 L215,215 L210,190 Z"/>
+
+        <!-- Parker County (west of Tarrant) -->
+        <path id="parker" class="county-parker"
+          d="M165,155 L220,160 L215,215 L210,245 L185,255 L160,248 L140,235 L135,205 L140,175 Z"/>
+
+        <!-- Wise County (north of both) -->
+        <path id="wise" class="county-wise"
+          d="M175,100 L260,95 L275,125 L280,155 L220,160 L165,155 L140,145 L138,118 Z"/>
+
+        <!-- County labels -->
+        <text x="252" y="198" font-family="'Barlow Condensed'" font-size="9" fill="rgba(91,141,184,0.7)" text-anchor="middle" letter-spacing="1">TARRANT</text>
+        <text x="178" y="208" font-family="'Barlow Condensed'" font-size="8" fill="rgba(178,34,34,0.7)" text-anchor="middle" letter-spacing="1">PARKER</text>
+        <text x="210" y="128" font-family="'Barlow Condensed'" font-size="8" fill="rgba(91,141,184,0.7)" text-anchor="middle" letter-spacing="1">WISE</text>
+
+        <!-- Azle dot -->
+        <circle cx="195" cy="178" r="4" fill="var(--cream)" opacity="0.8"/>
+        <text x="202" y="175" font-family="'Barlow Condensed'" font-size="7" fill="rgba(245,240,232,0.6)" letter-spacing="0.5">AZLE</text>
+      </svg>
+    </div>
+
+    <div class="area-right">
+      <p class="section-eyebrow">Where We Deliver</p>
+      <h2 class="area-headline">
+        Rooted in Azle.<br>
+        <em>Trusted across</em><br>
+        North Texas.
+      </h2>
+      <ul class="county-list">
+        <li>Tarrant County</li>
+        <li>Parker County</li>
+        <li>Wise County</li>
+      </ul>
+      <p class="area-note">Not sure if we serve your area? Call us at (817) 444-3150.</p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       PHASE 2 TEASER
+  ═══════════════════════════════════════════════════════════ -->
+  <section id="phase2" aria-label="Coming soon">
+    <p class="phase2-label" id="p2-label">Coming Soon</p>
+    <h2 class="phase2-headline" id="p2-headline">
+      Your account,<br>online.
+    </h2>
+    <p class="phase2-sub" id="p2-sub">
+      Track deliveries, manage your tank, and schedule service from anywhere.
+    </p>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       FOOTER
+  ═══════════════════════════════════════════════════════════ -->
+  <footer id="footer">
+    <div class="footer-grid">
+      <div class="footer-logo">
+        <img src="/assets/images/logo.png" alt="Rural Gas Supply Co." />
+        <p class="footer-tagline">Family owned &amp; operated since 1946.<br>Azle, Texas.</p>
+      </div>
+      <div class="footer-contact">
+        <p class="footer-heading">Contact</p>
+        <div class="footer-contact">
+          <p>
+            <a href="tel:+18174443150">(817) 444-3150</a><br>
+            Azle, Texas 76020<br>
+            Tarrant · Parker · Wise Counties
+          </p>
+        </div>
+      </div>
+      <div class="footer-nav">
+        <p class="footer-heading">Services</p>
+        <ul>
+          <li><a href="request.html">Residential Propane</a></li>
+          <li><a href="request.html">Commercial Propane</a></li>
+          <li><a href="request.html">Agricultural Propane</a></li>
+          <li><a href="request.html">Tank Installation</a></li>
+          <li><a href="request.html">Tank Leasing</a></li>
+          <li><a href="request.html">Cylinder Refills</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 Rural Gas Supply Co. All rights reserved. Est. 1946, Azle, Texas.</p>
+      <a href="https://www.facebook.com" target="_blank" rel="noopener" class="fb-link" aria-label="Facebook">
+        <svg width="14" height="14" viewBox="0 0 24 24" stroke-width="1.5"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+        Facebook
+      </a>
+    </div>
+  </footer>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       GSAP + ScrollTrigger
+  ═══════════════════════════════════════════════════════════ -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script>
+    gsap.registerPlugin(ScrollTrigger);
+
+    /* ── Custom Cursor ─────────────────────────────────────── */
+    const cursor = document.getElementById('cursor');
+    const cursorRing = document.getElementById('cursor-ring');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+
+    document.addEventListener('mousemove', e => {
+      mx = e.clientX; my = e.clientY;
+      gsap.set(cursor, { x: mx, y: my });
+    });
+
+    gsap.ticker.add(() => {
+      rx += (mx - rx) * 0.12;
+      ry += (my - ry) * 0.12;
+      gsap.set(cursorRing, { x: rx, y: ry });
+    });
+
+    document.querySelectorAll('a, button, .btn-cta, .panel-link').forEach(el => {
+      el.addEventListener('mouseenter', () => cursor.classList.add('expanded'));
+      el.addEventListener('mouseleave', () => cursor.classList.remove('expanded'));
+    });
+
+    /* ── Hero Video → UI Reveal ────────────────────────────── */
+    const video = document.getElementById('hero-video');
+    const heroUI = document.querySelectorAll('.hero-ui');
+
+    function revealHeroUI() {
+      const tl = gsap.timeline();
+
+      // Topbar slides down
+      tl.to('#topbar', {
+        y: 0,
+        opacity: 1,
+        duration: 0.9,
+        ease: 'power3.out',
+        pointerEvents: 'auto'
+      }, 0);
+
+      // Quote block slides in from left
+      tl.to('#hero-quote', {
+        opacity: 1,
+        x: 0,
+        duration: 1,
+        ease: 'power3.out',
+        pointerEvents: 'auto'
+      }, 0.15);
+
+      // Stat line
+      tl.to('#hero-stat', {
+        opacity: 1,
+        duration: 0.8,
+        ease: 'power2.out',
+        pointerEvents: 'auto'
+      }, 0.35);
+
+      // Scroll indicator
+      tl.to('#scroll-indicator', {
+        opacity: 1,
+        duration: 0.7,
+        ease: 'power2.out',
+        pointerEvents: 'auto'
+      }, 0.45);
+    }
+
+    // Set initial states
+    gsap.set('#hero-quote', { x: -60 });
+    gsap.set('#topbar', { opacity: 0 });
+
+    video.addEventListener('ended', revealHeroUI);
+
+    // Fallback: if video errors or takes too long, reveal UI anyway
+    video.addEventListener('error', revealHeroUI);
+    setTimeout(() => {
+      if (video.paused || video.ended || video.currentTime === 0) revealHeroUI();
+    }, 8000);
+
+    /* ── Quote Rotation ────────────────────────────────────── */
+    const quotes = document.querySelectorAll('.quote-line');
+    let currentQuote = 0;
+    let quoteInterval;
+
+    function rotateQuote() {
+      const prev = currentQuote;
+      currentQuote = (currentQuote + 1) % quotes.length;
+
+      gsap.to(quotes[prev], { opacity: 0, y: -12, duration: 0.5, ease: 'power2.in', onComplete: () => {
+        quotes[prev].classList.remove('active');
+        quotes[prev].style.display = 'none';
+        quotes[prev].style.opacity = 1;
+        quotes[prev].style.transform = '';
+      }});
+
+      setTimeout(() => {
+        quotes[currentQuote].classList.add('active');
+        quotes[currentQuote].style.display = 'block';
+        gsap.fromTo(quotes[currentQuote],
+          { opacity: 0, y: 16 },
+          { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' }
+        );
+      }, 520);
+    }
+
+    video.addEventListener('ended', () => {
+      quoteInterval = setInterval(rotateQuote, 4000);
+    });
+
+    /* ── Nav scroll state ──────────────────────────────────── */
+    ScrollTrigger.create({
+      start: '100px top',
+      onEnter: () => document.getElementById('topbar').classList.add('nav-scrolled'),
+      onLeaveBack: () => document.getElementById('topbar').classList.remove('nav-scrolled'),
+    });
+
+    /* ── Heritage: year ghost fill scrub ──────────────────── */
+    ScrollTrigger.create({
+      trigger: '#heritage',
+      start: 'top 60%',
+      end: 'center 30%',
+      scrub: 1.5,
+      onUpdate: self => {
+        const ghost = document.getElementById('year-ghost');
+        const p = self.progress;
+        const opacity = Math.min(p * 2, 0.45);
+        ghost.style.webkitTextStroke = `1px rgba(91,141,184,${0.25 + p * 0.4})`;
+        ghost.style.color = `rgba(91,141,184,${p * 0.45})`;
+      }
+    });
+
+    /* Heritage image clip-path wipe */
+    gsap.to('#heritage-frame', {
+      clipPath: 'inset(0% 0 0 0)',
+      duration: 1.2,
+      ease: 'power3.out',
+      scrollTrigger: {
+        trigger: '#heritage-frame',
+        start: 'top 75%',
+        toggleActions: 'play none none none'
+      }
+    });
+    gsap.set('#heritage-frame', { clipPath: 'inset(100% 0 0 0)' });
+
+    /* ── Services: Horizontal Scroll ──────────────────────── */
+    const track = document.getElementById('services-track');
+    const panels = document.querySelectorAll('.service-panel');
+    const totalPanels = panels.length;
+    const totalWidth = (totalPanels - 1) * 100; // in vw
+
+    const servicesPin = gsap.timeline({
+      scrollTrigger: {
+        trigger: '#services-wrapper',
+        pin: '#services-pin',
+        start: 'top top',
+        end: () => `+=${totalWidth * (window.innerWidth / 100)}`,
+        scrub: 1,
+        anticipatePin: 1,
+        onUpdate: self => {
+          const idx = Math.round(self.progress * (totalPanels - 1));
+          document.querySelectorAll('.prog-dot').forEach((d, i) => {
+            d.classList.toggle('active', i === idx);
+          });
+        },
+        onEnter: () => document.getElementById('services-progress').classList.add('visible'),
+        onLeave: () => document.getElementById('services-progress').classList.remove('visible'),
+        onEnterBack: () => document.getElementById('services-progress').classList.add('visible'),
+        onLeaveBack: () => document.getElementById('services-progress').classList.remove('visible'),
+      }
+    });
+
+    servicesPin.to(track, {
+      x: () => -(totalWidth * (window.innerWidth / 100)),
+      ease: 'none'
+    });
+
+    /* Panel title clip-path reveals — triggered by horizontal progress */
+    const panelTitles = Array.from(panels).map(p => p.querySelector('.panel-title'));
+    panelTitles.forEach(t => { if (t) gsap.set(t, { clipPath: 'inset(0 100% 0 0)' }); });
+
+    const revealedPanels = new Set();
+
+    ScrollTrigger.create({
+      trigger: '#services-wrapper',
+      start: 'top top',
+      end: () => `+=${totalWidth * (window.innerWidth / 100)}`,
+      onUpdate: self => {
+        const idx = Math.floor(self.progress * totalPanels);
+        const safeIdx = Math.min(idx, totalPanels - 1);
+        if (!revealedPanels.has(safeIdx) && panelTitles[safeIdx]) {
+          revealedPanels.add(safeIdx);
+          gsap.to(panelTitles[safeIdx], {
+            clipPath: 'inset(0 0% 0 0)',
+            duration: 0.9,
+            ease: 'power3.out'
+          });
+        }
+      }
+    });
+
+    /* ── Stats Counters ────────────────────────────────────── */
+    function animateCounter(el, target, duration = 2) {
+      let start = 0;
+      const isYear = target === 1946;
+      if (isYear) start = 1900;
+
+      gsap.to({ val: start }, {
+        val: target,
+        duration,
+        ease: 'power2.out',
+        onUpdate: function() {
+          el.textContent = Math.round(this.targets()[0].val).toLocaleString();
+        },
+        scrollTrigger: {
+          trigger: '#stats',
+          start: 'top 70%',
+          once: true
+        }
+      });
+    }
+
+    animateCounter(document.getElementById('stat-year'), 1946, 2.5);
+    animateCounter(document.getElementById('stat-counties'), 3, 1.5);
+    animateCounter(document.getElementById('stat-years'), 78, 2);
+
+    /* ── Service Area: County light up ────────────────────── */
+    ScrollTrigger.create({
+      trigger: '#service-area',
+      start: 'top 65%',
+      onEnter: () => {
+        document.getElementById('tarrant').classList.add('lit');
+        setTimeout(() => document.getElementById('parker').classList.add('lit'), 300);
+        setTimeout(() => document.getElementById('wise').classList.add('lit'), 600);
+      },
+      once: true
+    });
+
+    /* ── Phase 2 Teaser ────────────────────────────────────── */
+    gsap.set('#phase2 .phase2-label', { opacity: 0, y: 20 });
+    gsap.set('#phase2 .phase2-sub', { opacity: 0, y: 20 });
+
+    ScrollTrigger.create({
+      trigger: '#phase2',
+      start: 'top 65%',
+      onEnter: () => {
+        gsap.to('#p2-label', { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' });
+        gsap.to('#p2-sub', { opacity: 1, y: 0, duration: 0.8, delay: 0.3, ease: 'power3.out' });
+      },
+      once: true
+    });
+
+    /* ── Magnetic CTAs ─────────────────────────────────────── */
+    document.querySelectorAll('.btn-cta').forEach(btn => {
+      btn.addEventListener('mousemove', e => {
+        const r = btn.getBoundingClientRect();
+        const dx = e.clientX - (r.left + r.width / 2);
+        const dy = e.clientY - (r.top + r.height / 2);
+        gsap.to(btn, { x: dx * 0.25, y: dy * 0.25, duration: 0.3, ease: 'power2.out' });
+      });
+      btn.addEventListener('mouseleave', () => {
+        gsap.to(btn, { x: 0, y: 0, duration: 0.5, ease: 'elastic.out(1, 0.4)' });
+      });
+    });
+
+    /* ── Refresh ScrollTrigger on resize ──────────────────── */
+    window.addEventListener('resize', () => ScrollTrigger.refresh());
+  </script>
+</body>
+</html>
