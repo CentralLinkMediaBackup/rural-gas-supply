@@ -92,11 +92,11 @@
       z-index: 1;
     }
 
-    /* fallback poster if video fails */
+    /* dark base behind the video — no logo, no flash */
     #hero-fallback {
       position: absolute;
       inset: 0;
-      background: url('/assets/images/logo.png') center/contain no-repeat, #1A1A1A;
+      background: #0d0d0d;
       z-index: 0;
     }
 
@@ -1405,7 +1405,7 @@
         <div class="heritage-image-frame" id="heritage-frame">
           <div class="heritage-image-inner">
             <img
-              src="https://images.unsplash.com/photo-SFuHXJ-Ky3Q?auto=format&fit=crop&w=800&q=80"
+              src="https://images.unsplash.com/photo-1682458854587-e9dcfcbdbb2a?auto=format&fit=crop&w=800&q=80"
               alt="Texas wildflowers along barbed wire fence — Parker County"
               loading="lazy"
             />
@@ -1439,7 +1439,7 @@
           </div>
           <div class="panel-visual">
             <div class="panel-bg">
-              <img src="https://images.unsplash.com/photo-kj2uIrUXzN4?auto=format&fit=crop&w=1200&q=80" alt="Farmhouse on a dirt road in Lufkin, Texas" loading="lazy" />
+              <img src="https://images.unsplash.com/photo-1704946332038-27249b16988a?auto=format&fit=crop&w=1200&q=80" alt="Farmhouse on a dirt road in Lufkin, Texas" loading="lazy" />
             </div>
           </div>
         </div>
@@ -1448,7 +1448,7 @@
         <div class="service-panel svc-commercial">
           <div class="panel-visual">
             <div class="panel-bg">
-              <img src="https://images.unsplash.com/photo-UlmLMQC8pJ4?auto=format&fit=crop&w=1200&q=80" alt="Commercial delivery truck on Texas highway" loading="lazy" />
+              <img src="https://images.unsplash.com/photo-1528458538087-f58e9ad895da?auto=format&fit=crop&w=1200&q=80" alt="Commercial delivery truck on Texas highway" loading="lazy" />
             </div>
           </div>
           <div class="panel-content">
@@ -1475,7 +1475,7 @@
           </div>
           <div class="panel-visual">
             <div class="panel-bg">
-              <img src="https://images.unsplash.com/photo-_Dpcb7ZEebQ?auto=format&fit=crop&w=1200&q=80" alt="Grain silos and windmill on North Texas farm" loading="lazy" />
+              <img src="https://images.unsplash.com/photo-1758158386561-5e38be8eca0b?auto=format&fit=crop&w=1200&q=80" alt="Grain silos and windmill on North Texas farm" loading="lazy" />
             </div>
           </div>
         </div>
@@ -1484,7 +1484,7 @@
         <div class="service-panel svc-installation">
           <div class="panel-visual">
             <div class="panel-bg">
-              <img src="https://images.unsplash.com/photo-EYZJMHQfQL0?auto=format&fit=crop&w=1200&q=80" alt="Propane tanks ready for installation" loading="lazy" />
+              <img src="https://images.unsplash.com/photo-1664396113489-e50bddd4a777?auto=format&fit=crop&w=1200&q=80" alt="Propane tanks ready for installation" loading="lazy" />
             </div>
           </div>
           <div class="panel-content">
@@ -1511,7 +1511,7 @@
           </div>
           <div class="panel-visual">
             <div class="panel-bg">
-              <img src="https://images.unsplash.com/photo-ROYVKOEFYTw?auto=format&fit=crop&w=1200&q=80" alt="Delivery truck on a rural road" loading="lazy" />
+              <img src="https://images.unsplash.com/photo-1733941204538-1fc43cf5d764?auto=format&fit=crop&w=1200&q=80" alt="Delivery truck on a rural road" loading="lazy" />
             </div>
           </div>
         </div>
@@ -1520,7 +1520,7 @@
         <div class="service-panel svc-cylinder">
           <div class="panel-visual">
             <div class="panel-bg">
-              <img src="https://images.unsplash.com/photo-nmjQKjU9RUk?auto=format&fit=crop&w=1200&q=80" alt="Gas cylinder with pressure gauges" loading="lazy" />
+              <img src="https://images.unsplash.com/photo-1615626707623-8eb32da85131?auto=format&fit=crop&w=1200&q=80" alt="Gas cylinder with pressure gauges" loading="lazy" />
             </div>
           </div>
           <div class="panel-content">
@@ -1944,13 +1944,11 @@
         }
       }, 2000);
 
-      // Click anywhere to skip video
+      // Click anywhere to skip — jump to last frame, then reveal UI
       document.getElementById('hero').addEventListener('click', () => {
         if (!video.ended) {
+          video.currentTime = video.duration - 0.01;
           video.pause();
-          gsap.to(video, { opacity: 0, duration: 0.4, onComplete: () => {
-            video.style.display = 'none';
-          }});
           revealHeroUI(false);
         }
       }, { once: true });
