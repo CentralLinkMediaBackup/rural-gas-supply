@@ -109,9 +109,9 @@
       top: 0; left: 0; right: 0;
       height: var(--nav-h);
       z-index: 100;
-      display: flex;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
       align-items: center;
-      justify-content: space-between;
       padding: 0 2.5rem;
       background: rgba(26,26,26,0.72);
       backdrop-filter: blur(12px);
@@ -134,9 +134,6 @@
       display: flex;
       gap: 2.5rem;
       list-style: none;
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
     }
 
     .nav-links a {
@@ -155,6 +152,7 @@
       display: flex;
       align-items: center;
       gap: 1.5rem;
+      justify-content: flex-end;
     }
 
     .nav-phone {
@@ -453,297 +451,8 @@
       z-index: 1;
     }
 
-    /* ── Phase 2 Demo Modal ───────────────────────────────────── */
-    #phase2 {
-      cursor: pointer;
-    }
 
-    #phase2:hover .phase2-headline {
-      -webkit-text-stroke-color: rgba(245,240,232,0.6);
-    }
 
-    .phase2-cta {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.6rem;
-      margin-top: 2.5rem;
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.7rem;
-      font-weight: 600;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: var(--steel);
-      border: 1px solid rgba(91,141,184,0.3);
-      padding: 0.75rem 1.8rem;
-      transition: border-color 0.2s, color 0.2s;
-    }
-    .phase2-cta:hover { border-color: var(--steel); color: var(--white); }
-    .phase2-cta svg { stroke: currentColor; fill: none; }
-
-    /* Demo portal overlay */
-    #demo-overlay {
-      position: fixed;
-      inset: 0;
-      z-index: 5000;
-      background: rgba(10,10,10,0.92);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      backdrop-filter: blur(8px);
-    }
-    #demo-overlay.open { display: flex; }
-
-    .demo-window {
-      width: min(960px, 95vw);
-      height: min(640px, 90vh);
-      background: #0f1923;
-      border: 1px solid rgba(91,141,184,0.2);
-      display: grid;
-      grid-template-columns: 220px 1fr;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .demo-badge {
-      position: absolute;
-      top: 1rem;
-      right: 4rem;
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.55rem;
-      font-weight: 700;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      color: var(--black);
-      background: var(--red);
-      padding: 0.3rem 0.75rem;
-      z-index: 10;
-    }
-
-    .demo-close {
-      position: absolute;
-      top: 0.9rem;
-      right: 1rem;
-      background: none;
-      border: none;
-      color: rgba(245,240,232,0.4);
-      font-size: 1.2rem;
-      cursor: pointer;
-      z-index: 10;
-      line-height: 1;
-      padding: 0.2rem 0.4rem;
-      transition: color 0.2s;
-    }
-    .demo-close:hover { color: var(--cream); }
-
-    /* Demo sidebar */
-    .demo-sidebar {
-      background: #0a111a;
-      border-right: 1px solid rgba(91,141,184,0.1);
-      padding: 2rem 0;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .demo-logo {
-      padding: 0 1.5rem 2rem;
-      border-bottom: 1px solid rgba(91,141,184,0.1);
-      margin-bottom: 1.5rem;
-    }
-
-    .demo-logo span {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.65rem;
-      font-weight: 700;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--steel);
-      display: block;
-    }
-
-    .demo-logo small {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.6rem;
-      color: rgba(245,240,232,0.3);
-      letter-spacing: 0.1em;
-    }
-
-    .demo-nav-item {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      padding: 0.7rem 1.5rem;
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.75rem;
-      font-weight: 500;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: rgba(245,240,232,0.35);
-      border-left: 2px solid transparent;
-      transition: color 0.2s;
-    }
-
-    .demo-nav-item.active {
-      color: var(--cream);
-      border-left-color: var(--steel);
-      background: rgba(91,141,184,0.05);
-    }
-
-    .demo-nav-item svg { stroke: currentColor; fill: none; width: 14px; }
-
-    /* Demo main content */
-    .demo-main {
-      padding: 2rem;
-      overflow-y: auto;
-    }
-
-    .demo-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 2rem;
-    }
-
-    .demo-greeting {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.4rem;
-      font-weight: 700;
-      color: var(--cream);
-    }
-
-    .demo-greeting small {
-      display: block;
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.7rem;
-      font-weight: 400;
-      letter-spacing: 0.12em;
-      color: rgba(245,240,232,0.35);
-      margin-top: 0.2rem;
-      font-style: normal;
-    }
-
-    .demo-schedule-btn {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.65rem;
-      font-weight: 700;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--white);
-      background: var(--steel);
-      border: none;
-      padding: 0.65rem 1.4rem;
-      cursor: default;
-    }
-
-    .demo-cards {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .demo-card {
-      background: rgba(245,240,232,0.03);
-      border: 1px solid rgba(245,240,232,0.07);
-      padding: 1.25rem;
-    }
-
-    .demo-card-label {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.58rem;
-      font-weight: 600;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      color: rgba(245,240,232,0.3);
-      margin-bottom: 0.75rem;
-    }
-
-    .demo-card-value {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.6rem;
-      font-weight: 700;
-      color: var(--cream);
-      line-height: 1;
-    }
-
-    .demo-card-sub {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.7rem;
-      color: rgba(245,240,232,0.35);
-      margin-top: 0.3rem;
-    }
-
-    /* Tank gauge */
-    .tank-gauge {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-
-    .gauge-bar {
-      flex: 1;
-      height: 6px;
-      background: rgba(245,240,232,0.08);
-      border-radius: 3px;
-      overflow: hidden;
-    }
-
-    .gauge-fill {
-      height: 100%;
-      width: 65%;
-      background: var(--steel);
-      border-radius: 3px;
-    }
-
-    .gauge-pct {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 1.4rem;
-      font-weight: 700;
-      color: var(--steel);
-    }
-
-    /* Demo delivery table */
-    .demo-table-title {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.6rem;
-      font-weight: 600;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      color: rgba(245,240,232,0.3);
-      margin-bottom: 0.75rem;
-    }
-
-    .demo-table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-
-    .demo-table th {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.58rem;
-      font-weight: 600;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: rgba(245,240,232,0.25);
-      text-align: left;
-      padding: 0.4rem 0;
-      border-bottom: 1px solid rgba(245,240,232,0.06);
-    }
-
-    .demo-table td {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.8rem;
-      font-weight: 300;
-      color: rgba(245,240,232,0.6);
-      padding: 0.6rem 0;
-      border-bottom: 1px solid rgba(245,240,232,0.04);
-    }
-
-    .demo-table .status-done {
-      color: #5cb85c;
-      font-weight: 500;
-      font-size: 0.65rem;
-      letter-spacing: 0.1em;
-    }
 
     /* ── Contact / Map Section ───────────────────────────────── */
     #contact {
@@ -1118,55 +827,23 @@
       font-style: italic;
     }
 
-    /* ── Phase 2 Teaser ──────────────────────────────────────── */
-    #phase2 {
+    /* ── Customer Portal CTA ─────────────────────────────────── */
+    #customer-cta {
       background: #0d0d0d;
-      padding: 12vw 5vw;
+      padding: 10vw 5vw;
       text-align: center;
       position: relative;
       overflow: hidden;
+      opacity: 0;
     }
-
-    #phase2::before {
+    #customer-cta::before {
       content: '';
       position: absolute;
-      top: 50%;
-      left: 50%;
+      top: 50%; left: 50%;
       transform: translate(-50%, -50%);
       width: 600px; height: 600px;
-      background: radial-gradient(circle, rgba(91,141,184,0.05) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(91,141,184,0.06) 0%, transparent 70%);
       pointer-events: none;
-    }
-
-    .phase2-label {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.62rem;
-      font-weight: 600;
-      letter-spacing: 0.35em;
-      text-transform: uppercase;
-      color: var(--steel);
-      margin-bottom: 2.5rem;
-      opacity: 0;
-    }
-
-    .phase2-headline {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(2rem, 5vw, 5rem);
-      font-weight: 700;
-      color: transparent;
-      -webkit-text-stroke: 1px rgba(245,240,232,0.35);
-      line-height: 1.15;
-      max-width: 800px;
-      margin: 0 auto 2rem;
-    }
-
-    .phase2-sub {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 1rem;
-      font-weight: 300;
-      color: rgba(245,240,232,0.35);
-      letter-spacing: 0.05em;
-      opacity: 0;
     }
 
     /* ── Footer ──────────────────────────────────────────────── */
@@ -1352,8 +1029,8 @@
     </nav>
     <div class="nav-right">
       <span class="nav-phone">(817) 444-3150</span>
-      <a href="#contact" class="btn-cta" style="margin-right:0.5rem; background:transparent; border-color:rgba(245,240,232,0.2);">Contact Us</a>
-      <a href="request.html" class="btn-cta">Request Service</a>
+      <a href="contact.html" class="btn-cta" style="background:transparent; border-color:rgba(245,240,232,0.2);">Contact Us</a>
+      <a href="customer.html" class="btn-cta">Existing Customer?</a>
     </div>
   </header>
 
@@ -1575,101 +1252,46 @@
   ═══════════════════════════════════════════════════════════ -->
   <section id="service-area" aria-label="Service area">
     <div class="area-map">
-      <!-- Accurate Texas geographic outline -->
-      <svg viewBox="0 0 380 440" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <filter id="map-glow">
-            <feGaussianBlur stdDeviation="3" result="blur"/>
-            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-          </filter>
-        </defs>
+      <!-- Real Texas outline — Wikimedia Commons simplified SVG (CC0), viewBox 0 0 1162 1134 -->
+      <svg viewBox="0 0 1162 1134" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- State outline -->
+        <path d="M1150.4,558.2l-0.2-1l-3.4-1.1l-0.9-1.7l-1.3-1.8l0.6-1.7l0.8-2.4l1.8-1.9l-1.8-0.1l-1.2-2.8l-2-2.2l1-2.2l-2.5-1.4l-2.4-1.6l0.4-1.8l1.9-1.2l0.8-1.9l-2.3-0.4l-1.7-0.6l-2.4-0.3l-1-1.7l-1.7-1.3l0-1.7l-1.5-2.2l-0.2-1.6l1.8-1.6l0.1-1.8l-0.4-1.8l0.8-1.6l0.8-1.7l-0.8-2.9l-1.1-2l-1.1-1.7l1-1.8l-0.9-1.9l-1.6-1.8l-1.5-1.8l-0.2-1.8l-0.8-1.7l0.1-1.7l-1.8-0.6l-0.9-1.9l-1.8-0.1l-0.5-1.7l-1.6-0.8l-1.9-1l-1.6-2.9l-1-2.1l-1.4-1.8l-1.7-0.9l0-2.7l-1.2-162.3c-2.4-0.7-3.2-3-6.6,0.8c-2.5-3.5-3.2-3.7-7.5-2.5c1.1,1.2-2.3-0.2-2.1-1.4c-1.4,1.1-3.5,2.2-4.5,3.1c0.3-0.6,0.6-1.3,0.8-1.9c-3.3,2.2-9.3,5.8-9.9,0.4c-3.9-0.4-7.4-2.9-4.9-7.2c-2.6,1.4-5,1.4-7.6,2.3c0.5-0.6,0.9-1.1,1.4-1.7c-1.4-0.1-3,0.3-4.4,0c0.2-0.7,0.5-1.4,0.7-2.1c-0.8,0.2-1.6,0.5-2.4,0.7c0.8-0.6-0.5-2.4-0.4-1.8c-2.5,0.2-4.7-0.3-6.8-0.5c2.1-1.2,1.1-0.9,2.7-2.6c-2.6,1-4.6,0.4-7.1,0.8c2.1-3.3-2.1-0.5-2.6-3.9c-2.6-0.5-2.4-0.6-3.2-1.9c-0.8,0.3-1.7,0.6-2.5,0.9c-0.4-0.3-1-1.7-1.7-2.4c-1.9,3.1-1.9,1.5-3.1-0.8c-3.9-0.4-5.2-5.2-5.1-4.5c-0.7,0-1.4,0-2.2,0c0-2.9-1.1-2.6-2.2-5.7c-4.5,1.9-7.8-1.5-9.3-4.6c-0.1,0.9-1.2,1.4-1-0.9c-3.8,0.1-1.9,0.8-2.8-1.8c-6-3.5-12.1-3.4-12.4,4.6c-0.6-0.7-1.1-1.5-1.7-2.2c-0.8,7.3-17.7,4.2-20.1,1.2c-6.4,3.6-0.8-2.7-4.3-3.4c-5.3-1.2-3.4,2-7.1,2.6c-1.5,0.2-6.5,0.9-7.8,1.4c-2.6,1.2-2,3.9-3.9,4.5c-5.6,1.6-9.6-1.7-15-2.2c-2.7-0.3-12.9,3.4-14,4.3c-4.5-0.5-5.9,2.1-5.3,2c0.2,10.6-7.9,3.2-12.1,5.3c-5.6,2.8,1.8,8.3-6.4,5.1c-1.9-0.7-3.4-5.1-5-6.4c-2.1-1.7-4.4,1.2-6.5,0.1c-1.7-0.9-2.1-4.2-3.6-5.2c-1.7-1.2-5.2-1.1-7.7-3.3c1.9-1.5,2-3.3,3.2-4.6c-1.2-0.5-5.8-1.6-7.1-1.8c-0.6,11.9-9.1,8.3-14.7,4.6c1,0.6-1.2,2.4-2.8,1c-1.4-1.1-1.3-4.7-2.2-5.3c-4.3-3-2-4.6-8.7-4.2c2,4.7-0.8,14.5-6.3,9.3c-0.6,0.7-1.2,1.3-1.8,2c2.7,0.8,2.1,1,3.4,2.5c-7.2,1.5,0.1,10.7-7.5,10.5c-3.1-0.1-5.9-6.2-6.3-8.8c-0.5-3.1,7.4-8.3-0.1-11.9c-5.4-2.6-2.3,10.2-9.3,2.9c-0.7,0.4-0.8,1.8-2,2.6c-0.1-0.6-3.9,6.1-8.2,4.7c-5.6-1.9,0.2-6.6-4.1-9.5c-2.5-1.8-8.3-0.4-10.9-1.7c-2-1-0.3-7.6-7.5-6.7c-5.7,0.8-8.1,11.5-13.2,13.2c-3.2,1-7.6,0.8-10.5-1.7c-2.7-2.3-1.5-4.4-2-6.8c7.7-11.5-15.2-1.4-10-10.7c-4.3-3.8-0.5-6.4-1.9-11.6c-4.7,4.6-8.4,3.3-14,2.5c-6.9-1-5.7-1.8-11.4,0.9c-4.2,2-2.8,6.9-9.5,4.6c-6-2.1-5.2-7.9-13.2-8.5c-3-0.2-7.2,2.3-11,2c-4.2-0.4-7.4-2.7-11.3-4c-4.9-1.6-6.1-2-10.6-2.7c-3.7-0.6-6.7,0.2-8.9-1.8c-5.9,2.9-8.3-14.2-12.6-18.3c-1-1-7.8-7-8.5-6.7c-4.7,1.5-0.8,6.9-8.1,7.7c-0.9,0.1-4-3.1-6-3.2c-2.7,0-4.4,2.3-4.8,2.4c-5.2,0.7-6.7,2-12-1.2c-7-4.2-15.4-23.1-24.6-16.7V5h-43.6V4.7h-42.4l-10.8,0.1l-90.1-0.2v0l-81,0l0.1,52.9L320.2,76l0.1,3.5l-0.2,70.4l0.1,11.7L320,236l0.1,30.8l-1.9,107.8l0,105.6l-192.6,0l-77.1-0.3L5,480.7c-0.2,2.4-0.6,4.9,0.7,7.9c-10.4,7.9,18.3,19.2,21.1,21.9c6.1,5.8,8,15.9,13,22.4c5.4,7,10.6,7,17.8,11.3c6.2,3.7,10.8,9.3,15.8,14.5c2.5,2.6,3.8,6.4,6.3,8.8c2.6,2.5,8.1,3.6,11,6.4c4.8,4.6,7.1,10.1,11.1,14.8c3.2,3.8,11,7.3,10.4,12.5c12.7,2.7,19.1,8.3,29.4,16c10.4,7.8,14,14.7,18.5,28.7c3.8,12.1,13.9,18.1,14.5,33.3c0.3,6.3-0.4,11.5,1.6,17.6c2.1,6.2,6.3,11.6,8.8,17.9c3.1,7.8,3.8,11.4,9.4,17.2c7.4,7.7,15.4,10.1,22.8,14.6c0.3,7.5,10.7,15,17.5,18c4.2,1.9,8.6,1.3,12.6,2.8c4.7,1.8,5.2,3.8,7.8,5.8c5.7,4.3,13.5,5.1,19.7,8.3c5.4,2.8,12.5,17.3,18.3,11.5c1.7,1.2,0.9,1.3,1.9,2.5c0.6-0.2,1.2-0.5,1.8-0.7c0.4,2.3,0.9,2.4,2.4,4.8c3.8-3.2,7,1.8,11.4,0.1c4.2-1.6,3.9-6,6-9.7c1.4-2.5,4.6-6.9,6.7-8.9c2.5-2.2,7.1-2.8,9.3-6c3-4.3-0.9-2.7,0.3-8c1.2-4.9,4.4-7.2,6.4-11.7c1.7-4,4.5-16.1,5.1-21.4c2.7-1.7,3.1-6.5,6.2-10.5c3.5-4.5,6.9-3.8,11.6-7.5c2.8,1.6,2.5,2,4-1.7c1.6,0,6.9,1.7,8.1,1.1c2.1-1.1,2.7-2.3,4.6-3.7c6.8-4.6,2.9-7.9,12.5-4.3c4.5,1.7,7.9,6,14,6.5c5.7,0.5,9.2-4.8,12.7,0.4c3.1-2.3,6.4-2.5,9.7-0.9c-0.2-0.6-0.4-1.1-0.6-1.7c5.9,5.3,20.4,7.4,25-0.4c0,1.8,0.8,3.6,1,5.4c1.6-1.3,5-1.7,6.6-3c2.2,3.7-0.2,3.2,5,2.7c-1.3,3.5,1.6,6.5,3.7,10.1c0.6,1.1,4,2.3,4.9,3.4c-0.3-0.3,0.4,5.8,0.9,6.7c0.5-2.1,1.6-3.9,1.9-6.2c2.1,2.3-0.3,6,1.4,8.3c2.5,3.4,1.2,0.2,5.3,3.3c4.5,3.4,8.5,5.3,12.9,9.1c3.2,2.8,6,7.2,9.5,10.3c3.8,3.3,10.2,6.8,13,10.5c1.2,1.6,1.1,5.5,1.6,6.2c1.2,1.6,5.1,4.6,6.2,6.5c2.5,4.4,3.5,7.7,4.8,13.3c2.1,9.4,7.2,15.5,10.2,24.5c0.3,1,1.6,5.5,2.1,6.6c1.4,3,4.6,4.3,5.6,6.3c2.4,4.8,2.2,13.3,9.4,14.3c-0.9,1.7-1,1.6-2.6,2.8c4.9,5.1,4.4,16.4,8.5,23.2c4.3,7.2,12.9,8.7,18.3,15.3c4,4.8,8.5,12.8,11,17.1c2.6,4.5,5.6,19.9,11.1,18.5c2.3,4.6,6.6,9.6,10.9,12.3c3.2,2,9.1,1.6,9.7,5.8c5.5-1.2,6.1,6.1,4.6,11.2c5.8-0.1,3.4,7.4,2.7,12.1c-1.2,7.6-1.7,4.3,0.5,9.4c1.8,4.4,4.9,5.7,5.7,12.4c0.4,3.7-2.7,10.7-1.8,14c1.9,7.1,10.1,12.7,14,19.4c3.7,6.5,5.2,12.7,7.3,19.5c1.1,3.7,1.7,9.5,3.3,12.8c0.9,1.8,4.3,2.9,4.9,4.8c1.8,5.6-1,8.4,3.8,11.6c2,1.4,12.4,0.9,12.7,0.7c2.5,4.7,8,3,11.3,4.5c3.1,1.4,6,4.6,8.5,7.2c-0.6,0.3-1.1,0.6-1.7,0.9c5,5.4,10.6-1.4,14.1,4.9c0.4-0.6,0.9-1.2,1.3-1.8c1.7,2.3,3.5,2.3,5.8,4.4c1.2-3.3,13.2,5.1,15.9,10.3c1.2-2.5,1.6-0.3,1,0.3c3.5,2.8,6.7,5.5,10.1,3.3c2.9,1.1,4.4,1.4,8.6,1.2c-0.1,0.6-0.3,1.3-0.4,1.9c9-3,19.9-1.2,27.8-0.2c2,1.7,5.5,1.6,9,0.6c-0.2,0.7-0.3,1.3-0.5,2c0.8-0.2,1.6-0.4,2.4-0.5c-0.1,2.4,3.7,6.7,5.1,9.2c4.4,1.6,3.7,1.2,5.4,5.4c0.7-0.4,1.4-0.9,2.1-1.3c2.6,2.3,7.9,7,10.9,5.4c2.5-1.4-0.6-5.4,0.8-6.8c2-2.1,5.1-1.3,7.4-2.3c2-0.9,10.1-2.7,11.9-3.8c4.9-3,5.6-3.5,4.8-11.2c-0.6-5.5-2-12.2-2.9-18.1c-4.3-27.2-16.7-52.8-17.4-80.5c-0.6-23.7,7.3-47,18.1-67.8c14.1-27.1,33.2-50.1,60.9-65.2l2.7-1.2l1.8-1.2l2.7-3.7l0.6-1.9l1.5-2l2.3-0.6l2.4-2.1l0.8-2.1l2-1.4l4.7-3.2l9.4-5.1l6.7-3.4l11-5.3l8.6-4.5l2.4-1.4l19.1-11.8l3.5-1.6l6.5-4.3l1.7,0l2.1-0.4l2.2-0.8l2.8-1.8l1.1-1.8l1.7-2.2l3.3-2.2l2.3-1.9l1.8-1.7l2.3-2.3l4.8-5.7l1.7-1.3l1.5-3.5l0.2-2.2l7.6-3.8l3.2-2.2l4.6-3.6l6.3-4.1l5.9-3.5l2.8-3l2.4-2.4l1.8,0.6l2.3-0.4l2.1-2l1.6-3.7l-0.4-2.4l-1.9-2.6l2.2-1.6l11.1-5.8l7.1-3.3l4.3-1.8l21.6-10.1l8.1-3.1h11.3l2.7,0.4l1.5,1.7l1.9,0.9l1.9,0l-1.3-6.7l-0.8-3.2l-3.2-5l-1.7-1.8l-0.4-1.8l-2.5-1.9l-0.1-2.1l1.3-1.9l2.4-1.9l2.7-2l2.2-3.2l1.2-2.5l0.3-1.8l0.9-2.9l1.3-2.8l1.9-1.6l2.3-1.9l0.3-1.7l3-3.1l-1.8-1.7l0.8-1.9l1.3-2.4l0.7-2l-0.9-2l-0.7-2l-0.4-1.9l-0.5-1.9l0.8-1.7l0.2-1.8l0.1-1.8l0.3-1.7l-1.3-1.6l-1.9-1.2l-1.3-2l-0.3-1.8l0.8-1.8l-0.4-2l0.8-1.9l1.5-1.8l0.2-1.8l1.9-0.4l0.2-1.6l-0.9-2.1l0.2-1.7l-0.2-1.8l-0.6-1.8l-1.7-1.8l0.6-1.6l0.3-2.3l2.1-1.5l1.7-0.4l0.2-1.7l-0.2-1.8l0.2-1.7l1.1-1.8l1.7-1.3l1.8-0.8l1-1.7l0.3-1.9l0.7-1.9l0.1-1.7l0.7-1.7l1.5-1.8l0.8-2.4l0.9-1.7l0.9-1.9l-0.3-1.8l-0.6-1.8l-0.8-2l1.7-1.6l0.9-1.8l1.5-1.8l-0.4-1.8l-1.7-1.3l-1.7-1l-0.3-1.7l0.2-1.9l1.9-0.1l2.4-1l0.2-2.3l-0.1-1.6l-1-1.8l-1.7-0.5l-1-1.7l1.6-1.8l0.7-1.6l-0.7-1.8l0.7-2.1l0.2-0.4h-4.4l-0.3,0.2l-0.1-0.2l-1.5-1.6l0.4-3l0.6-2l-1.8-0.8l0-1.9L1150.4,558.2Z"
+          fill="rgba(91,141,184,0.08)" stroke="rgba(91,141,184,0.35)" stroke-width="2" stroke-linejoin="round"/>
 
-        <!--
-          Coordinate system (proportionally mapped from real geography):
-          El Paso (106.5°W) → x≈32   Beaumont (94°W) → x≈355
-          Panhandle top (36.5°N) → y≈15   Brownsville (26°N) → y≈417
+        <!-- WISE COUNTY (north of Tarrant/Parker) — DFW area upper-left -->
+        <path id="wise" class="county-wise"   d="M 800,342 L 848,342 L 848,390 L 800,390 Z"/>
+        <!-- PARKER COUNTY (west of Tarrant) -->
+        <path id="parker" class="county-parker" d="M 784,390 L 828,390 L 828,438 L 784,438 Z"/>
+        <!-- TARRANT COUNTY (Fort Worth) -->
+        <path id="tarrant" class="county-tarrant" d="M 828,390 L 876,390 L 876,438 L 828,438 Z"/>
 
-          Panhandle: (120,15)→(198,15)→(198,111)  [103°W–100°W, 36.5°N–34°N]
-          NM/TX border: x=120, from y=111 to y=192, then jogs west to El Paso (32,195)
-          Eastern border: Red River goes east from (198,111), curves SE, TX/LA border goes south to (355,264)
-          Gulf coast: (355,264) SW to Brownsville (264,417)
-          Rio Grande: (264,417) NW back to El Paso (32,195)
-        -->
-        <path d="
-          M 120,15
-          L 198,15
-          L 198,111
-          L 248,113
-          L 295,116
-          L 342,128
-          L 355,158
-          L 358,202
-          L 358,248
-          L 355,264
-          L 322,268
-          L 292,308
-          L 268,346
-          L 264,392
-          L 264,417
-          L 238,412
-          L 210,400
-          L 182,385
-          L 155,368
-          L 130,345
-          L 110,320
-          L 98,300
-          L 88,278
-          L 78,255
-          L 62,232
-          L 48,210
-          L 32,195
-          L 120,192
-          L 120,15
-          Z
-        " fill="rgba(91,141,184,0.07)" stroke="rgba(91,141,184,0.32)" stroke-width="1.5" stroke-linejoin="round"/>
-
-        <!-- WISE COUNTY — north of Tarrant/Parker -->
-        <path id="wise" class="county-wise"
-          d="M 242,130 L 282,130 L 282,153 L 242,153 Z"/>
-
-        <!-- PARKER COUNTY — west of Tarrant -->
-        <path id="parker" class="county-parker"
-          d="M 230,153 L 258,153 L 258,175 L 230,175 Z"/>
-
-        <!-- TARRANT COUNTY — Fort Worth -->
-        <path id="tarrant" class="county-tarrant"
-          d="M 258,153 L 285,153 L 285,175 L 258,175 Z"/>
-
-        <!-- DFW region highlight ring -->
-        <rect x="224" y="124" width="68" height="58" rx="4"
-          fill="none" stroke="rgba(91,141,184,0.22)" stroke-width="1" stroke-dasharray="4 3"/>
+        <!-- DFW highlight ring -->
+        <rect x="778" y="336" width="104" height="108" rx="5"
+          fill="none" stroke="rgba(91,141,184,0.22)" stroke-width="2" stroke-dasharray="6 4"/>
 
         <!-- County labels -->
-        <text x="262" y="145" font-family="'Barlow Condensed'" font-size="8" fill="rgba(91,141,184,0.8)" text-anchor="middle" letter-spacing="1.5">WISE</text>
-        <text x="244" y="168" font-family="'Barlow Condensed'" font-size="7.5" fill="rgba(178,34,34,0.8)" text-anchor="middle" letter-spacing="1">PARKER</text>
-        <text x="272" y="168" font-family="'Barlow Condensed'" font-size="7.5" fill="rgba(91,141,184,0.8)" text-anchor="middle" letter-spacing="1">TARRANT</text>
+        <text x="824" y="370" font-family="'Barlow Condensed',sans-serif" font-size="22" fill="rgba(91,141,184,0.85)" text-anchor="middle" letter-spacing="3">WISE</text>
+        <text x="806" y="424" font-family="'Barlow Condensed',sans-serif" font-size="20" fill="rgba(178,34,34,0.85)" text-anchor="middle" letter-spacing="2">PARKER</text>
+        <text x="852" y="424" font-family="'Barlow Condensed',sans-serif" font-size="20" fill="rgba(91,141,184,0.85)" text-anchor="middle" letter-spacing="2">TARRANT</text>
 
         <!-- Fort Worth dot -->
-        <circle cx="270" cy="166" r="3" fill="rgba(91,141,184,0.9)"/>
-        <text x="278" y="163" font-family="'Barlow Condensed'" font-size="6.5" fill="rgba(245,240,232,0.5)" letter-spacing="0.5">FT WORTH</text>
+        <circle cx="856" cy="415" r="8" fill="rgba(91,141,184,0.9)"/>
+        <text x="870" y="410" font-family="'Barlow Condensed',sans-serif" font-size="18" fill="rgba(245,240,232,0.5)" letter-spacing="1">FT WORTH</text>
 
-        <!-- Azle — at corner of Parker/Tarrant/Wise -->
-        <circle cx="258" cy="153" r="4.5" fill="var(--cream)"/>
-        <circle cx="258" cy="153" r="8" fill="none" stroke="rgba(245,240,232,0.3)" stroke-width="1">
-          <animate attributeName="r" values="8;13;8" dur="2.5s" repeatCount="indefinite"/>
+        <!-- Azle — pulsing marker -->
+        <circle cx="828" cy="390" r="11" fill="var(--cream)"/>
+        <circle cx="828" cy="390" r="20" fill="none" stroke="rgba(245,240,232,0.3)" stroke-width="2">
+          <animate attributeName="r" values="20;32;20" dur="2.5s" repeatCount="indefinite"/>
           <animate attributeName="opacity" values="1;0;1" dur="2.5s" repeatCount="indefinite"/>
         </circle>
-        <text x="266" y="149" font-family="'Barlow Condensed'" font-size="8" fill="var(--cream)" font-weight="600" letter-spacing="0.5">AZLE</text>
+        <text x="844" y="383" font-family="'Barlow Condensed',sans-serif" font-size="22" fill="var(--cream)" font-weight="700" letter-spacing="1">AZLE</text>
 
         <!-- Dallas dot -->
-        <circle cx="290" cy="162" r="2.5" fill="rgba(245,240,232,0.4)"/>
-        <text x="296" y="159" font-family="'Barlow Condensed'" font-size="6.5" fill="rgba(245,240,232,0.32)" letter-spacing="0.5">DALLAS</text>
+        <circle cx="900" cy="412" r="6" fill="rgba(245,240,232,0.4)"/>
+        <text x="912" y="408" font-family="'Barlow Condensed',sans-serif" font-size="18" fill="rgba(245,240,232,0.3)" letter-spacing="1">DALLAS</text>
 
         <!-- State label -->
-        <text x="205" y="318" font-family="'Barlow Condensed'" font-size="11" fill="rgba(91,141,184,0.15)" text-anchor="middle" letter-spacing="5" font-weight="600">TEXAS</text>
-
-        <!-- Star — Austin (state capital, ~97.7°W 30.3°N → x≈259, y≈254) -->
-        <polygon points="259,256 261,250 263,256 257,252 265,252" fill="rgba(245,240,232,0.15)"/>
+        <text x="580" y="620" font-family="'Barlow Condensed',sans-serif" font-size="48" fill="rgba(91,141,184,0.1)" text-anchor="middle" letter-spacing="18" font-weight="700">TEXAS</text>
       </svg>
     </div>
 
@@ -1690,140 +1312,24 @@
   </section>
 
   <!-- ═══════════════════════════════════════════════════════════
-       PHASE 2 TEASER — clickable demo portal
+       CUSTOMER PORTAL CTA BANNER
   ═══════════════════════════════════════════════════════════ -->
-  <section id="phase2" aria-label="Coming soon" onclick="openDemo()" role="button" tabindex="0">
-    <p class="phase2-label" id="p2-label">Coming Soon</p>
-    <h2 class="phase2-headline" id="p2-headline">
-      Your account,<br>online.
+  <section id="customer-cta" aria-label="Customer portal">
+    <p class="section-eyebrow" style="color:rgba(91,141,184,0.7);">Existing Customers</p>
+    <h2 style="font-family:'Playfair Display',serif;font-size:clamp(2rem,4vw,3.2rem);color:var(--cream);margin:0.5rem 0 1rem;font-weight:700;">
+      Your account,<br><em>online.</em>
     </h2>
-    <p class="phase2-sub" id="p2-sub">
-      Track deliveries, manage your tank, and schedule service from anywhere.
+    <p style="font-family:'Barlow Condensed',sans-serif;font-size:1rem;letter-spacing:0.06em;color:rgba(245,240,232,0.55);max-width:420px;margin:0 auto 2rem;">
+      Track deliveries, check your tank level, and manage your service from anywhere.
     </p>
-    <div id="p2-cta" class="phase2-cta" style="opacity:0;margin:0 auto;display:inline-flex;">
-      Preview the Portal
-      <svg width="14" height="14" viewBox="0 0 14 14" style="margin-left:0.4rem"><line x1="2" y1="7" x2="12" y2="7"/><polyline points="8,3 12,7 8,11"/></svg>
-    </div>
+    <a href="customer.html" class="btn-cta" style="display:inline-flex;align-items:center;gap:0.5rem;font-size:0.7rem;">
+      Log In to My Account
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="2" y1="7" x2="12" y2="7"/><polyline points="8,3 12,7 8,11"/></svg>
+    </a>
   </section>
 
-  <!-- ═══════════════════════════════════════════════════════════
-       DEMO PORTAL OVERLAY
-  ═══════════════════════════════════════════════════════════ -->
-  <div id="demo-overlay" role="dialog" aria-label="Account portal demo">
-    <div class="demo-window">
-      <span class="demo-badge">Demo Mode</span>
-      <button class="demo-close" onclick="closeDemo()" aria-label="Close demo">✕</button>
-
-      <!-- Sidebar -->
-      <nav class="demo-sidebar">
-        <div class="demo-logo">
-          <span>Rural Gas Supply</span>
-          <small>Customer Portal</small>
-        </div>
-        <div class="demo-nav-item active">
-          <svg viewBox="0 0 16 16"><rect x="2" y="2" width="5" height="5" rx="1"/><rect x="9" y="2" width="5" height="5" rx="1"/><rect x="2" y="9" width="5" height="5" rx="1"/><rect x="9" y="9" width="5" height="5" rx="1"/></svg>
-          Dashboard
-        </div>
-        <div class="demo-nav-item">
-          <svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="6"/><path d="M8 4v4l3 2"/></svg>
-          Delivery History
-        </div>
-        <div class="demo-nav-item">
-          <svg viewBox="0 0 16 16"><rect x="3" y="2" width="10" height="12" rx="1"/><line x1="6" y1="6" x2="10" y2="6"/><line x1="6" y1="9" x2="10" y2="9"/></svg>
-          Schedule Service
-        </div>
-        <div class="demo-nav-item">
-          <svg viewBox="0 0 16 16"><circle cx="8" cy="6" r="3"/><path d="M2 14c0-3.3 2.7-6 6-6s6 2.7 6 6"/></svg>
-          My Account
-        </div>
-      </nav>
-
-      <!-- Main Content -->
-      <div class="demo-main">
-        <div class="demo-header">
-          <div class="demo-greeting">
-            Good morning, Edwin.
-            <small>Last delivery: May 14, 2025 · Azle, TX</small>
-          </div>
-          <button class="demo-schedule-btn">+ Schedule Delivery</button>
-        </div>
-
-        <!-- Cards -->
-        <div class="demo-cards">
-          <div class="demo-card">
-            <div class="demo-card-label">Tank Level</div>
-            <div class="tank-gauge">
-              <div class="gauge-pct">65%</div>
-              <div class="gauge-bar"><div class="gauge-fill"></div></div>
-            </div>
-            <div class="demo-card-sub">500-gal · Est. 38 days remaining</div>
-          </div>
-          <div class="demo-card">
-            <div class="demo-card-label">Next Scheduled Delivery</div>
-            <div class="demo-card-value">Jun 28</div>
-            <div class="demo-card-sub">Auto-fill program · ~180 gal</div>
-          </div>
-          <div class="demo-card">
-            <div class="demo-card-label">Account Standing</div>
-            <div class="demo-card-value" style="color:#5cb85c;font-size:1.2rem;">Current</div>
-            <div class="demo-card-sub">Next invoice: Jul 5, 2025</div>
-          </div>
-          <div class="demo-card">
-            <div class="demo-card-label">Lifetime Deliveries</div>
-            <div class="demo-card-value">47</div>
-            <div class="demo-card-sub">Customer since 2009</div>
-          </div>
-        </div>
-
-        <!-- Delivery History -->
-        <div class="demo-table-title">Recent Delivery History</div>
-        <table class="demo-table">
-          <thead>
-            <tr>
-              <th>Date</th>
-              <th>Gallons</th>
-              <th>Driver</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td>May 14, 2025</td><td>185 gal</td><td>Ray M.</td><td class="status-done">Delivered</td></tr>
-            <tr><td>Feb 3, 2025</td><td>210 gal</td><td>Dale H.</td><td class="status-done">Delivered</td></tr>
-            <tr><td>Nov 19, 2024</td><td>175 gal</td><td>Ray M.</td><td class="status-done">Delivered</td></tr>
-            <tr><td>Aug 27, 2024</td><td>195 gal</td><td>Dale H.</td><td class="status-done">Delivered</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-
-  <!-- ═══════════════════════════════════════════════════════════
-       CONTACT / MAP
-  ═══════════════════════════════════════════════════════════ -->
-  <section id="contact" aria-label="Contact us">
-    <div class="contact-top">
-      <div class="contact-info">
-        <p class="section-eyebrow">Get In Touch</p>
-        <h2 class="contact-headline">We're in<br>Azle, Texas.</h2>
-        <div class="contact-detail">
-          <a href="tel:+18174443150">(817) 444-3150</a><br>
-          Azle, TX 76020<br><br>
-          Mon – Fri &nbsp;8am – 5pm<br>
-          Emergency line available<br>
-          24 hours, 7 days
-        </div>
-      </div>
-      <div class="contact-map-wrap">
-        <iframe
-          title="Rural Gas Supply Co. location — Azle, Texas"
-          src="https://maps.google.com/maps?q=Azle,Texas+76020&t=&z=13&ie=UTF8&iwloc=&output=embed"
-          allowfullscreen
-          loading="lazy"
-          referrerpolicy="no-referrer-when-downgrade">
-        </iframe>
-      </div>
-    </div>
-  </section>
+  <!-- placeholder so old demo-overlay reference below is gone -->
+  <div id="demo-overlay" style="display:none">
 
   <!-- ═══════════════════════════════════════════════════════════
        FOOTER
@@ -1889,7 +1395,7 @@
       gsap.set(cursorRing, { x: rx, y: ry });
     });
 
-    document.querySelectorAll('a, button, .btn-cta, .panel-link, #phase2').forEach(el => {
+    document.querySelectorAll('a, button, .btn-cta, .panel-link').forEach(el => {
       el.addEventListener('mouseenter', () => cursor.classList.add('expanded'));
       el.addEventListener('mouseleave', () => cursor.classList.remove('expanded'));
     });
@@ -2074,51 +1580,14 @@
       once: true
     });
 
-    /* ── Phase 2: Teaser animations + keyboard accessibility ── */
-    gsap.set(['#p2-label', '#p2-sub', '#p2-cta'], { opacity: 0, y: 20 });
-
+    /* ── Customer CTA: animate in on scroll ─────────────────── */
     ScrollTrigger.create({
-      trigger: '#phase2',
-      start: 'top 65%',
+      trigger: '#customer-cta',
+      start: 'top 70%',
       onEnter: () => {
-        gsap.to('#p2-label', { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' });
-        gsap.to('#p2-sub',   { opacity: 1, y: 0, duration: 0.8, delay: 0.25, ease: 'power3.out' });
-        gsap.to('#p2-cta',   { opacity: 1, y: 0, duration: 0.8, delay: 0.5,  ease: 'power3.out' });
+        gsap.fromTo('#customer-cta', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out' });
       },
       once: true
-    });
-
-    document.getElementById('phase2').addEventListener('keydown', e => {
-      if (e.key === 'Enter' || e.key === ' ') openDemo();
-    });
-
-    /* ── Demo Portal ───────────────────────────────────────── */
-    function openDemo() {
-      const overlay = document.getElementById('demo-overlay');
-      overlay.classList.add('open');
-      document.body.style.overflow = 'hidden';
-      gsap.fromTo('.demo-window',
-        { scale: 0.92, opacity: 0 },
-        { scale: 1, opacity: 1, duration: 0.5, ease: 'power3.out' }
-      );
-    }
-
-    function closeDemo() {
-      gsap.to('.demo-window', {
-        scale: 0.94, opacity: 0, duration: 0.3, ease: 'power2.in',
-        onComplete: () => {
-          document.getElementById('demo-overlay').classList.remove('open');
-          document.body.style.overflow = '';
-        }
-      });
-    }
-
-    document.getElementById('demo-overlay').addEventListener('click', e => {
-      if (e.target === document.getElementById('demo-overlay')) closeDemo();
-    });
-
-    document.addEventListener('keydown', e => {
-      if (e.key === 'Escape') closeDemo();
     });
 
     /* ── Magnetic CTAs ─────────────────────────────────────── */

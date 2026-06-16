@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Customer Login — Rural Gas Supply Co.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Barlow+Condensed:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --steel: #5B8DB8;
+      --red:   #B22222;
+      --black: #1A1A1A;
+      --cream: #F5F0E8;
+      --navy:  #0a111a;
+    }
+
+    html, body { height: 100%; }
+
+    body {
+      background: var(--black);
+      color: var(--cream);
+      font-family: 'Barlow Condensed', sans-serif;
+    }
+
+    /* ──────────────────────────────────────────
+       LOGIN SCREEN
+    ────────────────────────────────────────── */
+    #login-screen {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      background: var(--navy);
+      position: relative;
+    }
+
+    #login-screen::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: radial-gradient(ellipse at 50% 40%, rgba(91,141,184,0.07) 0%, transparent 65%);
+      pointer-events: none;
+    }
+
+    .login-back {
+      position: absolute;
+      top: 1.5rem;
+      left: 2rem;
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(245,240,232,0.45);
+      text-decoration: none;
+      transition: color 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .login-back:hover { color: var(--cream); }
+
+    .login-box {
+      width: 100%;
+      max-width: 400px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .login-logo {
+      margin-bottom: 2.5rem;
+      text-align: center;
+    }
+
+    .login-logo img {
+      height: 52px;
+      width: auto;
+    }
+
+    .login-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--cream);
+      text-align: center;
+      margin-bottom: 0.4rem;
+    }
+
+    .login-sub {
+      font-size: 0.8rem;
+      color: rgba(245,240,232,0.4);
+      letter-spacing: 0.06em;
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.2rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: rgba(245,240,232,0.45);
+      margin-bottom: 0.5rem;
+    }
+
+    .form-group input {
+      width: 100%;
+      background: rgba(245,240,232,0.05);
+      border: 1px solid rgba(245,240,232,0.12);
+      color: var(--cream);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1rem;
+      letter-spacing: 0.04em;
+      padding: 0.85rem 1rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .form-group input:focus { border-color: var(--steel); }
+    .form-group input::placeholder { color: rgba(245,240,232,0.2); }
+
+    .login-btn {
+      width: 100%;
+      background: var(--steel);
+      border: none;
+      color: white;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      padding: 1rem;
+      cursor: pointer;
+      margin-top: 0.5rem;
+      transition: background 0.2s;
+    }
+    .login-btn:hover { background: #4a7aa0; }
+
+    .login-error {
+      background: rgba(178,34,34,0.12);
+      border: 1px solid rgba(178,34,34,0.3);
+      color: #e88080;
+      font-size: 0.78rem;
+      letter-spacing: 0.04em;
+      padding: 0.65rem 1rem;
+      margin-top: 1rem;
+      display: none;
+    }
+
+    .login-footer-note {
+      text-align: center;
+      margin-top: 2rem;
+      font-size: 0.72rem;
+      color: rgba(245,240,232,0.3);
+      letter-spacing: 0.05em;
+    }
+
+    .login-footer-note a {
+      color: var(--steel);
+      text-decoration: none;
+    }
+
+    /* ──────────────────────────────────────────
+       DASHBOARD SCREEN
+    ────────────────────────────────────────── */
+    #dashboard-screen {
+      display: none;
+      min-height: 100vh;
+      background: #0c1520;
+    }
+
+    /* Sidebar */
+    .dash-sidebar {
+      position: fixed;
+      top: 0; left: 0; bottom: 0;
+      width: 230px;
+      background: var(--navy);
+      border-right: 1px solid rgba(91,141,184,0.1);
+      display: flex;
+      flex-direction: column;
+      z-index: 50;
+    }
+
+    .dash-brand {
+      padding: 1.5rem;
+      border-bottom: 1px solid rgba(91,141,184,0.1);
+    }
+
+    .dash-brand img { height: 36px; width: auto; }
+
+    .dash-brand-sub {
+      font-size: 0.55rem;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(245,240,232,0.3);
+      margin-top: 0.3rem;
+    }
+
+    .dash-nav {
+      flex: 1;
+      padding: 1rem 0;
+    }
+
+    .dash-nav-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem 1.5rem;
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(245,240,232,0.35);
+      cursor: pointer;
+      border-left: 2px solid transparent;
+      transition: color 0.2s, background 0.2s;
+      user-select: none;
+    }
+    .dash-nav-item:hover { color: rgba(245,240,232,0.7); }
+    .dash-nav-item.active {
+      color: var(--cream);
+      border-left-color: var(--steel);
+      background: rgba(91,141,184,0.06);
+    }
+    .dash-nav-item svg { stroke: currentColor; fill: none; width: 15px; flex-shrink: 0; }
+
+    .dash-logout {
+      padding: 1.5rem;
+      border-top: 1px solid rgba(91,141,184,0.08);
+    }
+
+    .dash-logout-btn {
+      font-size: 0.6rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(245,240,232,0.35);
+      background: none;
+      border: none;
+      cursor: pointer;
+      transition: color 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .dash-logout-btn:hover { color: var(--cream); }
+
+    /* Main content */
+    .dash-main {
+      margin-left: 230px;
+      padding: 2.5rem 3rem;
+      min-height: 100vh;
+    }
+
+    @media (max-width: 768px) {
+      .dash-sidebar { display: none; }
+      .dash-main { margin-left: 0; padding: 1.5rem; }
+    }
+
+    .dash-topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 2.5rem;
+    }
+
+    .dash-greeting {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--cream);
+    }
+
+    .dash-greeting-sub {
+      font-size: 0.75rem;
+      color: rgba(245,240,232,0.35);
+      letter-spacing: 0.08em;
+      margin-top: 0.3rem;
+    }
+
+    .schedule-btn {
+      background: var(--steel);
+      border: none;
+      color: white;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 0.7rem 1.5rem;
+      cursor: pointer;
+      transition: background 0.2s;
+      flex-shrink: 0;
+    }
+    .schedule-btn:hover { background: #4a7aa0; }
+
+    /* Cards */
+    .dash-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .dash-card {
+      background: rgba(245,240,232,0.03);
+      border: 1px solid rgba(245,240,232,0.07);
+      padding: 1.5rem;
+      transition: border-color 0.2s;
+    }
+    .dash-card:hover { border-color: rgba(91,141,184,0.2); }
+
+    .card-label {
+      font-size: 0.55rem;
+      font-weight: 700;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: rgba(245,240,232,0.28);
+      margin-bottom: 0.9rem;
+    }
+
+    .card-value {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--cream);
+      line-height: 1;
+    }
+
+    .card-value.good { color: #5cb85c; font-size: 1.3rem; }
+    .card-value.steel { color: var(--steel); }
+
+    .card-sub {
+      font-size: 0.72rem;
+      color: rgba(245,240,232,0.32);
+      margin-top: 0.4rem;
+      letter-spacing: 0.03em;
+    }
+
+    /* Tank gauge */
+    .gauge-wrap {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .gauge-bar {
+      flex: 1;
+      height: 6px;
+      background: rgba(245,240,232,0.08);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .gauge-fill {
+      height: 100%;
+      width: 65%;
+      background: var(--steel);
+      border-radius: 3px;
+      transition: width 1.5s ease;
+    }
+
+    .gauge-pct {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--steel);
+      min-width: 3rem;
+    }
+
+    /* Section */
+    .dash-section {
+      margin-bottom: 2rem;
+    }
+
+    .section-heading {
+      font-size: 0.58rem;
+      font-weight: 700;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: rgba(245,240,232,0.28);
+      margin-bottom: 1rem;
+      padding-bottom: 0.6rem;
+      border-bottom: 1px solid rgba(245,240,232,0.06);
+    }
+
+    /* Delivery table */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th {
+      font-size: 0.55rem;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(245,240,232,0.22);
+      text-align: left;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid rgba(245,240,232,0.06);
+    }
+
+    td {
+      font-size: 0.85rem;
+      font-weight: 300;
+      color: rgba(245,240,232,0.6);
+      padding: 0.7rem 0;
+      border-bottom: 1px solid rgba(245,240,232,0.04);
+      letter-spacing: 0.02em;
+    }
+
+    .status-pill {
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.25rem 0.6rem;
+    }
+    .status-pill.delivered { background: rgba(92,184,92,0.12); color: #5cb85c; }
+    .status-pill.scheduled { background: rgba(91,141,184,0.12); color: var(--steel); }
+
+    /* Account info */
+    .account-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    @media (max-width: 600px) { .account-grid { grid-template-columns: 1fr; } }
+
+    .account-field label {
+      font-size: 0.55rem;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(245,240,232,0.28);
+      display: block;
+      margin-bottom: 0.3rem;
+    }
+
+    .account-field p {
+      font-size: 0.88rem;
+      color: rgba(245,240,232,0.7);
+      letter-spacing: 0.03em;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ══════════════════════════════════════════════
+       LOGIN SCREEN
+  ══════════════════════════════════════════════ -->
+  <div id="login-screen">
+    <a href="/" class="login-back">
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="7,2 3,6 7,10"/><line x1="3" y1="6" x2="11" y2="6"/></svg>
+      Back to site
+    </a>
+
+    <div class="login-box">
+      <div class="login-logo">
+        <img src="/assets/images/logo.png" alt="Rural Gas Supply Co." />
+      </div>
+
+      <h1 class="login-title">Customer Portal</h1>
+      <p class="login-sub">Sign in to track deliveries &amp; manage your account</p>
+
+      <form id="login-form" onsubmit="handleLogin(event)">
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" placeholder="you@example.com" autocomplete="email" required />
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" placeholder="••••••••" autocomplete="current-password" required />
+        </div>
+        <button type="submit" class="login-btn">Sign In</button>
+        <div class="login-error" id="login-error">Invalid credentials. Try any email + password to demo.</div>
+      </form>
+
+      <p class="login-footer-note">
+        Not a customer yet? <a href="request.html">Request Service</a>
+      </p>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════
+       DASHBOARD SCREEN
+  ══════════════════════════════════════════════ -->
+  <div id="dashboard-screen">
+
+    <!-- Sidebar -->
+    <aside class="dash-sidebar">
+      <div class="dash-brand">
+        <img src="/assets/images/logo.png" alt="Rural Gas Supply Co." />
+        <p class="dash-brand-sub">Customer Portal</p>
+      </div>
+
+      <nav class="dash-nav">
+        <div class="dash-nav-item active" data-view="dashboard" onclick="switchView('dashboard', this)">
+          <svg viewBox="0 0 16 16"><rect x="2" y="2" width="5" height="5" rx="1"/><rect x="9" y="2" width="5" height="5" rx="1"/><rect x="2" y="9" width="5" height="5" rx="1"/><rect x="9" y="9" width="5" height="5" rx="1"/></svg>
+          Dashboard
+        </div>
+        <div class="dash-nav-item" data-view="history" onclick="switchView('history', this)">
+          <svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="6"/><path d="M8 4v4l3 2"/></svg>
+          Delivery History
+        </div>
+        <div class="dash-nav-item" data-view="schedule" onclick="switchView('schedule', this)">
+          <svg viewBox="0 0 16 16"><rect x="2" y="2" width="12" height="12" rx="1"/><line x1="5" y1="1" x2="5" y2="4"/><line x1="11" y1="1" x2="11" y2="4"/><line x1="2" y1="7" x2="14" y2="7"/></svg>
+          Schedule Service
+        </div>
+        <div class="dash-nav-item" data-view="account" onclick="switchView('account', this)">
+          <svg viewBox="0 0 16 16"><circle cx="8" cy="6" r="3"/><path d="M2 14c0-3.3 2.7-6 6-6s6 2.7 6 6"/></svg>
+          My Account
+        </div>
+      </nav>
+
+      <div class="dash-logout">
+        <button class="dash-logout-btn" onclick="logout()">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M5 2H2v9h3"/><polyline points="8,4 11,6.5 8,9"/><line x1="11" y1="6.5" x2="4" y2="6.5"/></svg>
+          Sign Out
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main -->
+    <main class="dash-main">
+
+      <!-- Dashboard view -->
+      <div id="view-dashboard">
+        <div class="dash-topbar">
+          <div>
+            <p class="dash-greeting" id="greeting-name">Good morning.</p>
+            <p class="dash-greeting-sub" id="greeting-sub">Account #RGS-00412 · Azle, TX</p>
+          </div>
+          <button class="schedule-btn" onclick="switchView('schedule', document.querySelector('[data-view=schedule]'))">+ Schedule Delivery</button>
+        </div>
+
+        <div class="dash-cards">
+          <div class="dash-card">
+            <p class="card-label">Tank Level</p>
+            <div class="gauge-wrap">
+              <span class="gauge-pct">65%</span>
+              <div class="gauge-bar"><div class="gauge-fill" id="gauge-fill"></div></div>
+            </div>
+            <p class="card-sub">500-gal tank · Est. 38 days remaining</p>
+          </div>
+          <div class="dash-card">
+            <p class="card-label">Next Delivery</p>
+            <p class="card-value">Jul 14</p>
+            <p class="card-sub">Auto-fill · ~180 gallons estimated</p>
+          </div>
+          <div class="dash-card">
+            <p class="card-label">Account Standing</p>
+            <p class="card-value good">Current</p>
+            <p class="card-sub">Next invoice: Jul 28, 2026</p>
+          </div>
+          <div class="dash-card">
+            <p class="card-label">Total Deliveries</p>
+            <p class="card-value">47</p>
+            <p class="card-sub">Customer since 2009</p>
+          </div>
+        </div>
+
+        <div class="dash-section">
+          <p class="section-heading">Recent Deliveries</p>
+          <table>
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Gallons</th>
+                <th>Driver</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>May 14, 2026</td>
+                <td>185 gal</td>
+                <td>Ray M.</td>
+                <td><span class="status-pill delivered">Delivered</span></td>
+              </tr>
+              <tr>
+                <td>Feb 3, 2026</td>
+                <td>210 gal</td>
+                <td>Dale H.</td>
+                <td><span class="status-pill delivered">Delivered</span></td>
+              </tr>
+              <tr>
+                <td>Nov 19, 2025</td>
+                <td>175 gal</td>
+                <td>Ray M.</td>
+                <td><span class="status-pill delivered">Delivered</span></td>
+              </tr>
+              <tr>
+                <td>Jul 14, 2026</td>
+                <td>~180 gal</td>
+                <td>TBD</td>
+                <td><span class="status-pill scheduled">Scheduled</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Delivery History view -->
+      <div id="view-history" style="display:none">
+        <div class="dash-topbar"><div><p class="dash-greeting">Delivery History</p><p class="dash-greeting-sub">All deliveries on record</p></div></div>
+        <div class="dash-section">
+          <p class="section-heading">Delivery Log</p>
+          <table>
+            <thead>
+              <tr><th>Date</th><th>Gallons</th><th>Price/Gal</th><th>Driver</th><th>Status</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>May 14, 2026</td><td>185 gal</td><td>$2.89</td><td>Ray M.</td><td><span class="status-pill delivered">Delivered</span></td></tr>
+              <tr><td>Feb 3, 2026</td><td>210 gal</td><td>$2.95</td><td>Dale H.</td><td><span class="status-pill delivered">Delivered</span></td></tr>
+              <tr><td>Nov 19, 2025</td><td>175 gal</td><td>$2.78</td><td>Ray M.</td><td><span class="status-pill delivered">Delivered</span></td></tr>
+              <tr><td>Aug 27, 2025</td><td>195 gal</td><td>$2.81</td><td>Dale H.</td><td><span class="status-pill delivered">Delivered</span></td></tr>
+              <tr><td>May 8, 2025</td><td>200 gal</td><td>$2.74</td><td>Ray M.</td><td><span class="status-pill delivered">Delivered</span></td></tr>
+              <tr><td>Jan 22, 2025</td><td>215 gal</td><td>$2.91</td><td>Dale H.</td><td><span class="status-pill delivered">Delivered</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Schedule Service view -->
+      <div id="view-schedule" style="display:none">
+        <div class="dash-topbar"><div><p class="dash-greeting">Schedule a Delivery</p><p class="dash-greeting-sub">Request a delivery date</p></div></div>
+        <div style="max-width:480px">
+          <p style="font-size:0.85rem;color:rgba(245,240,232,0.45);letter-spacing:0.04em;margin-bottom:2rem;line-height:1.6;">
+            Fill out the form below and a Rural Gas Supply representative will confirm your delivery within 1 business day.
+          </p>
+          <div style="display:flex;flex-direction:column;gap:1.2rem;">
+            <div class="form-group">
+              <label>Preferred Date</label>
+              <input type="date" style="width:100%;background:rgba(245,240,232,0.05);border:1px solid rgba(245,240,232,0.12);color:var(--cream);font-family:'Barlow Condensed',sans-serif;font-size:1rem;padding:0.85rem 1rem;outline:none;" />
+            </div>
+            <div class="form-group">
+              <label>Estimated Gallons Needed</label>
+              <input type="number" placeholder="e.g. 150" style="width:100%;background:rgba(245,240,232,0.05);border:1px solid rgba(245,240,232,0.12);color:var(--cream);font-family:'Barlow Condensed',sans-serif;font-size:1rem;padding:0.85rem 1rem;outline:none;" />
+            </div>
+            <div class="form-group">
+              <label>Notes</label>
+              <textarea rows="3" placeholder="Gate codes, access instructions..." style="width:100%;background:rgba(245,240,232,0.05);border:1px solid rgba(245,240,232,0.12);color:var(--cream);font-family:'Barlow Condensed',sans-serif;font-size:0.9rem;padding:0.85rem 1rem;outline:none;resize:vertical;"></textarea>
+            </div>
+            <button class="schedule-btn" style="width:100%;padding:1rem;" onclick="alert('Request submitted! We\'ll call you to confirm.')">Submit Request</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Account view -->
+      <div id="view-account" style="display:none">
+        <div class="dash-topbar"><div><p class="dash-greeting">My Account</p><p class="dash-greeting-sub">Account #RGS-00412</p></div></div>
+        <div class="dash-section">
+          <p class="section-heading">Account Information</p>
+          <div class="account-grid">
+            <div class="account-field"><label>Name</label><p id="acct-name">—</p></div>
+            <div class="account-field"><label>Email</label><p id="acct-email">—</p></div>
+            <div class="account-field"><label>Service Address</label><p>Azle, TX 76020</p></div>
+            <div class="account-field"><label>Phone</label><p>(817) 555-0192</p></div>
+            <div class="account-field"><label>Tank Size</label><p>500 Gallons</p></div>
+            <div class="account-field"><label>Program</label><p>Auto-Fill</p></div>
+            <div class="account-field"><label>Member Since</label><p>2009</p></div>
+            <div class="account-field"><label>Account Standing</label><p style="color:#5cb85c;">Current</p></div>
+          </div>
+        </div>
+
+        <div class="dash-section" style="margin-top:2rem;">
+          <p class="section-heading">Need Help?</p>
+          <p style="font-size:0.85rem;color:rgba(245,240,232,0.45);letter-spacing:0.04em;margin-bottom:1rem;">
+            Call us at <a href="tel:+18174443150" style="color:var(--steel);">(817) 444-3150</a> or visit our <a href="contact.html" style="color:var(--steel);">contact page</a>.
+          </p>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <script>
+    let loginAttempts = 0;
+
+    function handleLogin(e) {
+      e.preventDefault();
+      const email = document.getElementById('email').value;
+      const pass  = document.getElementById('password').value;
+      const err   = document.getElementById('login-error');
+
+      if (!email || pass.length < 4) {
+        loginAttempts++;
+        err.style.display = 'block';
+        if (loginAttempts >= 2) {
+          err.textContent = 'Tip: any email and any password (4+ chars) will log you in to the demo.';
+        }
+        return;
+      }
+
+      // Set greeting
+      const name = email.split('@')[0].replace(/[._]/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+      const hour = new Date().getHours();
+      const tod  = hour < 12 ? 'morning' : hour < 17 ? 'afternoon' : 'evening';
+      document.getElementById('greeting-name').textContent = `Good ${tod}, ${name}.`;
+      document.getElementById('greeting-sub').textContent = `Account #RGS-00412 · Azle, TX`;
+      document.getElementById('acct-name').textContent = name;
+      document.getElementById('acct-email').textContent = email;
+
+      // Show dashboard
+      document.getElementById('login-screen').style.display = 'none';
+      document.getElementById('dashboard-screen').style.display = 'block';
+
+      // Animate gauge fill
+      setTimeout(() => {
+        document.getElementById('gauge-fill').style.width = '65%';
+      }, 200);
+    }
+
+    function switchView(viewId, el) {
+      ['dashboard','history','schedule','account'].forEach(v => {
+        document.getElementById('view-' + v).style.display = v === viewId ? 'block' : 'none';
+      });
+      document.querySelectorAll('.dash-nav-item').forEach(item => item.classList.remove('active'));
+      if (el) el.classList.add('active');
+    }
+
+    function logout() {
+      document.getElementById('dashboard-screen').style.display = 'none';
+      document.getElementById('login-screen').style.display = 'flex';
+      document.getElementById('login-form').reset();
+      document.getElementById('login-error').style.display = 'none';
+      loginAttempts = 0;
+    }
+
+    // Keyboard nav
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && document.getElementById('dashboard-screen').style.display === 'block') {
+        logout();
+      }
+    });
+  </script>
+</body>
+</html>
