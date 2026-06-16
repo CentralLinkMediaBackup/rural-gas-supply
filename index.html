@@ -128,13 +128,15 @@
     .nav-logo img {
       height: 40px;
       width: auto;
-      filter: brightness(0) invert(1);
     }
 
     .nav-links {
       display: flex;
       gap: 2.5rem;
       list-style: none;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
     }
 
     .nav-links a {
@@ -143,7 +145,7 @@
       font-size: 0.72rem;
       letter-spacing: 0.18em;
       text-transform: uppercase;
-      color: rgba(245,240,232,0.75);
+      color: rgba(245,240,232,0.8);
       text-decoration: none;
       transition: color 0.2s;
     }
@@ -160,7 +162,7 @@
       font-weight: 400;
       font-size: 0.72rem;
       letter-spacing: 0.12em;
-      color: rgba(245,240,232,0.6);
+      color: rgba(245,240,232,0.7);
       text-transform: uppercase;
     }
 
@@ -204,13 +206,34 @@
 
     .quote-line {
       font-family: 'Playfair Display', serif;
-      font-size: clamp(2.4rem, 5.5vw, 5rem);
+      font-size: clamp(2.8rem, 6vw, 5.5rem);
       font-weight: 700;
       line-height: 1.1;
       color: var(--white);
       display: none;
+      text-shadow: 0 2px 40px rgba(0,0,0,0.7), 0 0 80px rgba(0,0,0,0.4);
     }
     .quote-line.active { display: block; }
+
+    /* ── Video Skip Hint ─────────────────────────────────────── */
+    #skip-hint {
+      position: absolute;
+      bottom: 7rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 12;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(245,240,232,0.55);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.6s;
+      white-space: nowrap;
+    }
+    #skip-hint.visible { opacity: 1; }
 
     /* ── Scroll Indicator ────────────────────────────────────── */
     #scroll-indicator {
@@ -221,38 +244,40 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 0.5rem;
+      gap: 0.75rem;
     }
 
     .scroll-label {
       font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.6rem;
-      letter-spacing: 0.25em;
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.28em;
       text-transform: uppercase;
-      color: rgba(245,240,232,0.5);
+      color: rgba(245,240,232,0.85);
       writing-mode: vertical-rl;
     }
 
     .scroll-circle {
-      width: 42px; height: 42px;
-      border: 1px solid rgba(245,240,232,0.3);
+      width: 58px; height: 58px;
+      border: 2px solid rgba(245,240,232,0.8);
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
       animation: breathe 2.4s ease-in-out infinite;
+      box-shadow: 0 0 24px rgba(245,240,232,0.15);
     }
 
     .scroll-circle svg {
-      width: 14px;
-      stroke: rgba(245,240,232,0.7);
+      width: 20px;
+      stroke: var(--white);
       fill: none;
-      stroke-width: 1.5;
+      stroke-width: 2.5;
     }
 
     @keyframes breathe {
-      0%, 100% { transform: scale(1); opacity: 0.6; }
-      50% { transform: scale(1.12); opacity: 1; }
+      0%, 100% { transform: scale(1); opacity: 0.75; }
+      50% { transform: scale(1.1); opacity: 1; }
     }
 
     /* ── Hero Stat Line ──────────────────────────────────────── */
@@ -262,11 +287,12 @@
       left: 5vw;
       z-index: 10;
       font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.62rem;
-      font-weight: 500;
+      font-size: 0.75rem;
+      font-weight: 600;
       letter-spacing: 0.22em;
       text-transform: uppercase;
-      color: rgba(245,240,232,0.5);
+      color: rgba(245,240,232,0.85);
+      text-shadow: 0 1px 12px rgba(0,0,0,0.6);
     }
 
     /* ── Marquee Ticker ──────────────────────────────────────── */
@@ -394,45 +420,392 @@
     }
 
     .heritage-image-inner {
-      background: var(--steel);
       aspect-ratio: 3/4;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-end;
-      padding: 2rem;
       position: relative;
       overflow: hidden;
     }
 
-    .heritage-image-inner::before {
+    .heritage-image-inner img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+    }
+
+    .heritage-image-inner::after {
       content: '';
       position: absolute;
       inset: 0;
-      background:
-        repeating-linear-gradient(
-          0deg,
-          transparent,
-          transparent 40px,
-          rgba(26,26,26,0.08) 40px,
-          rgba(26,26,26,0.08) 41px
-        );
-    }
-
-    /* placeholder SVG truck silhouette */
-    .truck-silhouette {
-      width: 80%;
-      opacity: 0.2;
+      background: linear-gradient(to top, rgba(26,26,26,0.65) 0%, transparent 50%);
     }
 
     .heritage-caption {
+      position: absolute;
+      bottom: 1.5rem;
+      left: 0; right: 0;
       font-family: 'Barlow Condensed', sans-serif;
       font-size: 0.62rem;
       letter-spacing: 0.2em;
       text-transform: uppercase;
-      color: rgba(245,240,232,0.5);
-      margin-top: 1.5rem;
+      color: rgba(245,240,232,0.7);
       text-align: center;
+      z-index: 1;
+    }
+
+    /* ── Phase 2 Demo Modal ───────────────────────────────────── */
+    #phase2 {
+      cursor: pointer;
+    }
+
+    #phase2:hover .phase2-headline {
+      -webkit-text-stroke-color: rgba(245,240,232,0.6);
+    }
+
+    .phase2-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-top: 2.5rem;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--steel);
+      border: 1px solid rgba(91,141,184,0.3);
+      padding: 0.75rem 1.8rem;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .phase2-cta:hover { border-color: var(--steel); color: var(--white); }
+    .phase2-cta svg { stroke: currentColor; fill: none; }
+
+    /* Demo portal overlay */
+    #demo-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 5000;
+      background: rgba(10,10,10,0.92);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(8px);
+    }
+    #demo-overlay.open { display: flex; }
+
+    .demo-window {
+      width: min(960px, 95vw);
+      height: min(640px, 90vh);
+      background: #0f1923;
+      border: 1px solid rgba(91,141,184,0.2);
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .demo-badge {
+      position: absolute;
+      top: 1rem;
+      right: 4rem;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.55rem;
+      font-weight: 700;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--black);
+      background: var(--red);
+      padding: 0.3rem 0.75rem;
+      z-index: 10;
+    }
+
+    .demo-close {
+      position: absolute;
+      top: 0.9rem;
+      right: 1rem;
+      background: none;
+      border: none;
+      color: rgba(245,240,232,0.4);
+      font-size: 1.2rem;
+      cursor: pointer;
+      z-index: 10;
+      line-height: 1;
+      padding: 0.2rem 0.4rem;
+      transition: color 0.2s;
+    }
+    .demo-close:hover { color: var(--cream); }
+
+    /* Demo sidebar */
+    .demo-sidebar {
+      background: #0a111a;
+      border-right: 1px solid rgba(91,141,184,0.1);
+      padding: 2rem 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .demo-logo {
+      padding: 0 1.5rem 2rem;
+      border-bottom: 1px solid rgba(91,141,184,0.1);
+      margin-bottom: 1.5rem;
+    }
+
+    .demo-logo span {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--steel);
+      display: block;
+    }
+
+    .demo-logo small {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.6rem;
+      color: rgba(245,240,232,0.3);
+      letter-spacing: 0.1em;
+    }
+
+    .demo-nav-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.7rem 1.5rem;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(245,240,232,0.35);
+      border-left: 2px solid transparent;
+      transition: color 0.2s;
+    }
+
+    .demo-nav-item.active {
+      color: var(--cream);
+      border-left-color: var(--steel);
+      background: rgba(91,141,184,0.05);
+    }
+
+    .demo-nav-item svg { stroke: currentColor; fill: none; width: 14px; }
+
+    /* Demo main content */
+    .demo-main {
+      padding: 2rem;
+      overflow-y: auto;
+    }
+
+    .demo-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+
+    .demo-greeting {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--cream);
+    }
+
+    .demo-greeting small {
+      display: block;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      color: rgba(245,240,232,0.35);
+      margin-top: 0.2rem;
+      font-style: normal;
+    }
+
+    .demo-schedule-btn {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--white);
+      background: var(--steel);
+      border: none;
+      padding: 0.65rem 1.4rem;
+      cursor: default;
+    }
+
+    .demo-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .demo-card {
+      background: rgba(245,240,232,0.03);
+      border: 1px solid rgba(245,240,232,0.07);
+      padding: 1.25rem;
+    }
+
+    .demo-card-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.58rem;
+      font-weight: 600;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: rgba(245,240,232,0.3);
+      margin-bottom: 0.75rem;
+    }
+
+    .demo-card-value {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--cream);
+      line-height: 1;
+    }
+
+    .demo-card-sub {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.7rem;
+      color: rgba(245,240,232,0.35);
+      margin-top: 0.3rem;
+    }
+
+    /* Tank gauge */
+    .tank-gauge {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .gauge-bar {
+      flex: 1;
+      height: 6px;
+      background: rgba(245,240,232,0.08);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .gauge-fill {
+      height: 100%;
+      width: 65%;
+      background: var(--steel);
+      border-radius: 3px;
+    }
+
+    .gauge-pct {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--steel);
+    }
+
+    /* Demo delivery table */
+    .demo-table-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.6rem;
+      font-weight: 600;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: rgba(245,240,232,0.3);
+      margin-bottom: 0.75rem;
+    }
+
+    .demo-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .demo-table th {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.58rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(245,240,232,0.25);
+      text-align: left;
+      padding: 0.4rem 0;
+      border-bottom: 1px solid rgba(245,240,232,0.06);
+    }
+
+    .demo-table td {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 300;
+      color: rgba(245,240,232,0.6);
+      padding: 0.6rem 0;
+      border-bottom: 1px solid rgba(245,240,232,0.04);
+    }
+
+    .demo-table .status-done {
+      color: #5cb85c;
+      font-weight: 500;
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+    }
+
+    /* ── Contact / Map Section ───────────────────────────────── */
+    #contact {
+      background: #0d0d0d;
+      border-top: 1px solid rgba(245,240,232,0.06);
+    }
+
+    .contact-top {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 0;
+    }
+
+    .contact-info {
+      padding: 5vw;
+      background: var(--black);
+    }
+
+    .contact-info .section-eyebrow {
+      margin-bottom: 1.2rem;
+    }
+
+    .contact-headline {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 3vw, 3rem);
+      font-weight: 700;
+      color: var(--cream);
+      line-height: 1.15;
+      margin-bottom: 2rem;
+    }
+
+    .contact-detail {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1rem;
+      font-weight: 400;
+      color: rgba(245,240,232,0.65);
+      line-height: 2;
+    }
+
+    .contact-detail a {
+      color: var(--cream);
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .contact-detail a:hover { color: var(--steel); }
+
+    .contact-map-wrap {
+      position: relative;
+      height: 400px;
+    }
+
+    .contact-map-wrap iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+      filter: grayscale(40%) contrast(1.1);
+    }
+
+    @media (max-width: 768px) {
+      .contact-top { grid-template-columns: 1fr; }
+      .contact-map-wrap { height: 280px; }
     }
 
     /* ── Services Horizontal Scroll ──────────────────────────── */
@@ -528,29 +901,35 @@
       position: absolute;
       inset: 0;
       will-change: transform;
+      overflow: hidden;
     }
 
-    /* Each service gets a distinct color treatment */
-    .svc-residential .panel-bg { background: linear-gradient(135deg, #1e2d3d 0%, #2a4060 100%); }
-    .svc-commercial  .panel-bg { background: linear-gradient(135deg, #2d1a1a 0%, #4a2020 100%); }
-    .svc-agricultural .panel-bg { background: linear-gradient(135deg, #1a2d1a 0%, #2a4a2a 100%); }
-    .svc-installation .panel-bg { background: linear-gradient(135deg, #1e1e2d 0%, #2a2a45 100%); }
-    .svc-leasing .panel-bg { background: linear-gradient(135deg, #2d2a1a 0%, #4a401a 100%); }
-    .svc-cylinder .panel-bg { background: linear-gradient(135deg, #1a2a2d 0%, #1a3e45 100%); }
+    .panel-bg img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+      transition: transform 0.8s ease;
+    }
+
+    .service-panel:hover .panel-bg img {
+      transform: scale(1.04);
+    }
+
+    .panel-bg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(13,13,13,0.42);
+    }
 
     .panel-icon {
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      opacity: 0.12;
-    }
-
-    .panel-icon svg {
-      width: clamp(120px, 18vw, 220px);
-      stroke: var(--cream);
-      fill: none;
-      stroke-width: 0.5;
+      opacity: 0;
     }
 
     .services-progress {
@@ -807,22 +1186,21 @@
     .footer-logo img {
       height: 52px;
       width: auto;
-      filter: brightness(0) invert(1);
-      opacity: 0.8;
       margin-bottom: 1rem;
     }
 
     .footer-tagline {
       font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.72rem;
-      font-weight: 300;
-      letter-spacing: 0.1em;
-      color: rgba(245,240,232,0.35);
+      font-size: 0.9rem;
+      font-weight: 400;
+      letter-spacing: 0.08em;
+      color: rgba(245,240,232,0.6);
+      line-height: 1.7;
     }
 
     .footer-heading {
       font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.6rem;
+      font-size: 0.65rem;
       font-weight: 600;
       letter-spacing: 0.3em;
       text-transform: uppercase;
@@ -832,38 +1210,39 @@
 
     .footer-contact p {
       font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.9rem;
-      font-weight: 300;
-      color: rgba(245,240,232,0.5);
-      line-height: 1.8;
+      font-size: 1rem;
+      font-weight: 400;
+      color: rgba(245,240,232,0.75);
+      line-height: 1.9;
     }
 
     .footer-contact a {
-      color: rgba(245,240,232,0.7);
+      color: var(--cream);
       text-decoration: none;
+      font-weight: 500;
     }
-    .footer-contact a:hover { color: var(--cream); }
+    .footer-contact a:hover { color: var(--steel); }
 
     .footer-nav ul {
       list-style: none;
     }
 
     .footer-nav li {
-      margin-bottom: 0.6rem;
+      margin-bottom: 0.65rem;
     }
 
     .footer-nav a {
       font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.85rem;
-      font-weight: 300;
-      color: rgba(245,240,232,0.45);
+      font-size: 1rem;
+      font-weight: 400;
+      color: rgba(245,240,232,0.65);
       text-decoration: none;
       transition: color 0.2s;
     }
     .footer-nav a:hover { color: var(--cream); }
 
     .footer-bottom {
-      border-top: 1px solid rgba(245,240,232,0.06);
+      border-top: 1px solid rgba(245,240,232,0.1);
       padding-top: 1.5rem;
       display: flex;
       justify-content: space-between;
@@ -872,10 +1251,10 @@
 
     .footer-bottom p {
       font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.62rem;
-      font-weight: 300;
-      letter-spacing: 0.12em;
-      color: rgba(245,240,232,0.2);
+      font-size: 0.8rem;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      color: rgba(245,240,232,0.55);
     }
 
     .fb-link {
@@ -883,11 +1262,11 @@
       align-items: center;
       gap: 0.4rem;
       font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.62rem;
+      font-size: 0.8rem;
       font-weight: 500;
       letter-spacing: 0.15em;
       text-transform: uppercase;
-      color: rgba(245,240,232,0.3);
+      color: rgba(245,240,232,0.55);
       text-decoration: none;
       transition: color 0.2s;
     }
@@ -937,11 +1316,14 @@
       <p class="quote-line" data-index="3">Family owned.<br>Community driven.</p>
     </div>
 
+    <!-- Video skip hint -->
+    <div id="skip-hint">Click anywhere to skip</div>
+
     <!-- Scroll Indicator -->
     <div id="scroll-indicator" class="hero-ui">
       <div class="scroll-circle">
-        <svg viewBox="0 0 14 14">
-          <polyline points="2,4 7,10 12,4" />
+        <svg viewBox="0 0 20 20">
+          <polyline points="3,6 10,14 17,6" />
         </svg>
       </div>
       <span class="scroll-label">Scroll</span>
@@ -969,7 +1351,8 @@
       </ul>
     </nav>
     <div class="nav-right">
-      <span class="nav-phone">Call Us: (817) 444-3150</span>
+      <span class="nav-phone">(817) 444-3150</span>
+      <a href="#contact" class="btn-cta" style="margin-right:0.5rem; background:transparent; border-color:rgba(245,240,232,0.2);">Contact Us</a>
       <a href="request.html" class="btn-cta">Request Service</a>
     </div>
   </header>
@@ -1021,17 +1404,12 @@
       <div class="heritage-right">
         <div class="heritage-image-frame" id="heritage-frame">
           <div class="heritage-image-inner">
-            <!-- Truck SVG placeholder — swap with real photo -->
-            <svg class="truck-silhouette" viewBox="0 0 200 100" fill="none" stroke="currentColor" stroke-width="1.5">
-              <rect x="10" y="50" width="110" height="40" rx="2"/>
-              <rect x="120" y="30" width="70" height="60" rx="2"/>
-              <circle cx="40" cy="92" r="8"/>
-              <circle cx="90" cy="92" r="8"/>
-              <circle cx="155" cy="92" r="8"/>
-              <rect x="120" y="38" width="50" height="25" rx="1" opacity="0.4"/>
-              <line x1="10" y1="68" x2="120" y2="68"/>
-            </svg>
-            <p class="heritage-caption">Rural Gas Supply Co. fleet — Azle, Texas</p>
+            <img
+              src="https://images.unsplash.com/photo-SFuHXJ-Ky3Q?auto=format&fit=crop&w=800&q=80"
+              alt="Texas wildflowers along barbed wire fence — Parker County"
+              loading="lazy"
+            />
+            <p class="heritage-caption">Parker County, Texas</p>
           </div>
         </div>
       </div>
@@ -1060,13 +1438,8 @@
             </a>
           </div>
           <div class="panel-visual">
-            <div class="panel-bg"></div>
-            <div class="panel-icon">
-              <svg viewBox="0 0 100 100">
-                <path d="M20 80V40l30-20 30 20v40H20z"/>
-                <rect x="38" y="55" width="14" height="25" rx="1"/>
-                <path d="M35 40h10M55 40h10"/>
-              </svg>
+            <div class="panel-bg">
+              <img src="https://images.unsplash.com/photo-kj2uIrUXzN4?auto=format&fit=crop&w=1200&q=80" alt="Farmhouse on a dirt road in Lufkin, Texas" loading="lazy" />
             </div>
           </div>
         </div>
@@ -1074,15 +1447,8 @@
         <!-- Panel 2: Commercial -->
         <div class="service-panel svc-commercial">
           <div class="panel-visual">
-            <div class="panel-bg"></div>
-            <div class="panel-icon">
-              <svg viewBox="0 0 100 100">
-                <rect x="15" y="25" width="70" height="60" rx="1"/>
-                <rect x="25" y="35" width="15" height="15" rx="1"/>
-                <rect x="60" y="35" width="15" height="15" rx="1"/>
-                <rect x="40" y="55" width="20" height="30"/>
-                <path d="M15 25L50 10 85 25"/>
-              </svg>
+            <div class="panel-bg">
+              <img src="https://images.unsplash.com/photo-UlmLMQC8pJ4?auto=format&fit=crop&w=1200&q=80" alt="Commercial delivery truck on Texas highway" loading="lazy" />
             </div>
           </div>
           <div class="panel-content">
@@ -1108,17 +1474,8 @@
             </a>
           </div>
           <div class="panel-visual">
-            <div class="panel-bg"></div>
-            <div class="panel-icon">
-              <svg viewBox="0 0 100 100">
-                <circle cx="50" cy="55" r="28"/>
-                <circle cx="50" cy="55" r="10"/>
-                <line x1="50" y1="27" x2="50" y2="10"/>
-                <line x1="50" y1="83" x2="50" y2="90"/>
-                <line x1="22" y1="55" x2="10" y2="55"/>
-                <line x1="78" y1="55" x2="90" y2="55"/>
-                <path d="M30 30L40 43M70 30L60 43M30 80L40 67M70 80L60 67"/>
-              </svg>
+            <div class="panel-bg">
+              <img src="https://images.unsplash.com/photo-_Dpcb7ZEebQ?auto=format&fit=crop&w=1200&q=80" alt="Grain silos and windmill on North Texas farm" loading="lazy" />
             </div>
           </div>
         </div>
@@ -1126,16 +1483,8 @@
         <!-- Panel 4: Tank Installation -->
         <div class="service-panel svc-installation">
           <div class="panel-visual">
-            <div class="panel-bg"></div>
-            <div class="panel-icon">
-              <svg viewBox="0 0 100 100">
-                <ellipse cx="50" cy="55" rx="35" ry="18"/>
-                <rect x="15" y="40" width="70" height="30" rx="18"/>
-                <line x1="50" y1="22" x2="50" y2="10"/>
-                <circle cx="50" cy="8" r="4"/>
-                <line x1="30" y1="75" x2="25" y2="88"/>
-                <line x1="70" y1="75" x2="75" y2="88"/>
-              </svg>
+            <div class="panel-bg">
+              <img src="https://images.unsplash.com/photo-EYZJMHQfQL0?auto=format&fit=crop&w=1200&q=80" alt="Propane tanks ready for installation" loading="lazy" />
             </div>
           </div>
           <div class="panel-content">
@@ -1161,16 +1510,8 @@
             </a>
           </div>
           <div class="panel-visual">
-            <div class="panel-bg"></div>
-            <div class="panel-icon">
-              <svg viewBox="0 0 100 100">
-                <path d="M50 20 L80 35 L80 65 L50 80 L20 65 L20 35 Z"/>
-                <circle cx="50" cy="50" r="12"/>
-                <line x1="50" y1="38" x2="50" y2="20"/>
-                <line x1="50" y1="62" x2="50" y2="80"/>
-                <line x1="38" y1="50" x2="20" y2="50"/>
-                <line x1="62" y1="50" x2="80" y2="50"/>
-              </svg>
+            <div class="panel-bg">
+              <img src="https://images.unsplash.com/photo-ROYVKOEFYTw?auto=format&fit=crop&w=1200&q=80" alt="Delivery truck on a rural road" loading="lazy" />
             </div>
           </div>
         </div>
@@ -1178,16 +1519,8 @@
         <!-- Panel 6: Cylinder Refills -->
         <div class="service-panel svc-cylinder">
           <div class="panel-visual">
-            <div class="panel-bg"></div>
-            <div class="panel-icon">
-              <svg viewBox="0 0 100 100">
-                <rect x="35" y="20" width="30" height="60" rx="15"/>
-                <rect x="42" y="12" width="16" height="12" rx="3"/>
-                <line x1="50" y1="8" x2="50" y2="12"/>
-                <circle cx="50" cy="6" r="3"/>
-                <line x1="20" y1="50" x2="35" y2="50" stroke-dasharray="3,3"/>
-                <line x1="65" y1="50" x2="80" y2="50" stroke-dasharray="3,3"/>
-              </svg>
+            <div class="panel-bg">
+              <img src="https://images.unsplash.com/photo-nmjQKjU9RUk?auto=format&fit=crop&w=1200&q=80" alt="Gas cylinder with pressure gauges" loading="lazy" />
             </div>
           </div>
           <div class="panel-content">
@@ -1242,32 +1575,111 @@
   ═══════════════════════════════════════════════════════════ -->
   <section id="service-area" aria-label="Service area">
     <div class="area-map">
-      <!-- Simplified Texas SVG with county approximations -->
-      <svg viewBox="0 0 500 520" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <!-- Texas outline (simplified) -->
-        <path d="M120,20 L380,20 L400,60 L420,80 L440,100 L460,140 L480,180 L490,220 L480,260 L460,300 L440,360 L420,400 L400,440 L380,480 L360,500 L340,510 L300,515 L260,510 L240,490 L220,480 L200,460 L180,440 L160,410 L140,380 L100,360 L60,340 L40,300 L30,260 L20,220 L20,180 L30,140 L40,100 L60,70 L80,40 Z"
-          class="county-path" opacity="0.15"/>
+      <!-- Geographic Texas outline with accurate DFW/North Texas positioning -->
+      <svg viewBox="0 0 380 440" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <filter id="map-glow">
+            <feGaussianBlur stdDeviation="3" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+        </defs>
 
-        <!-- Tarrant County (approximate — center-north, Fort Worth area) -->
-        <path id="tarrant" class="county-tarrant"
-          d="M220,160 L280,155 L290,185 L295,215 L280,225 L260,230 L240,225 L215,215 L210,190 Z"/>
+        <!-- Texas state outline — geographic shape with panhandle, El Paso notch, Gulf coast -->
+        <path d="
+          M 82,18
+          L 230,18
+          L 232,96
+          L 255,98
+          L 260,108
+          L 264,130
+          L 268,165
+          L 274,210
+          L 278,252
+          L 280,290
+          L 274,318
+          L 264,342
+          L 252,364
+          L 238,385
+          L 220,402
+          L 200,414
+          L 178,418
+          L 156,414
+          L 132,402
+          L 110,386
+          L 90,364
+          L 74,338
+          L 60,308
+          L 50,276
+          L 44,245
+          L 42,210
+          L 42,170
+          L 44,136
+          L 48,108
+          L 52,98
+          L 58,94
+          L 62,84
+          L 60,70
+          L 56,60
+          L 52,50
+          L 52,26
+          L 82,26
+          Z
+        " fill="rgba(91,141,184,0.06)" stroke="rgba(91,141,184,0.25)" stroke-width="1"/>
 
-        <!-- Parker County (west of Tarrant) -->
-        <path id="parker" class="county-parker"
-          d="M165,155 L220,160 L215,215 L210,245 L185,255 L160,248 L140,235 L135,205 L140,175 Z"/>
+        <!-- Thin county grid lines across North Texas for geographic context -->
+        <!-- Horizontal lines in the upper-center body -->
+        <line x1="82" y1="98" x2="232" y2="98" stroke="rgba(91,141,184,0.08)" stroke-width="0.5"/>
+        <line x1="82" y1="130" x2="248" y2="130" stroke="rgba(91,141,184,0.08)" stroke-width="0.5"/>
+        <line x1="82" y1="162" x2="256" y2="162" stroke="rgba(91,141,184,0.08)" stroke-width="0.5"/>
+        <line x1="82" y1="194" x2="262" y2="194" stroke="rgba(91,141,184,0.08)" stroke-width="0.5"/>
+        <!-- Vertical lines -->
+        <line x1="118" y1="98" x2="118" y2="340" stroke="rgba(91,141,184,0.06)" stroke-width="0.5"/>
+        <line x1="154" y1="98" x2="154" y2="370" stroke="rgba(91,141,184,0.06)" stroke-width="0.5"/>
+        <line x1="190" y1="98" x2="190" y2="395" stroke="rgba(91,141,184,0.06)" stroke-width="0.5"/>
+        <line x1="226" y1="98" x2="226" y2="385" stroke="rgba(91,141,184,0.06)" stroke-width="0.5"/>
 
-        <!-- Wise County (north of both) -->
+        <!-- WISE COUNTY — north of Tarrant/Parker, upper-center -->
         <path id="wise" class="county-wise"
-          d="M175,100 L260,95 L275,125 L280,155 L220,160 L165,155 L140,145 L138,118 Z"/>
+          d="M 154,130 L 218,130 L 220,162 L 154,162 Z"/>
+
+        <!-- PARKER COUNTY — west of Tarrant -->
+        <path id="parker" class="county-parker"
+          d="M 118,162 L 154,162 L 154,194 L 118,194 Z"/>
+
+        <!-- TARRANT COUNTY — center, Fort Worth -->
+        <path id="tarrant" class="county-tarrant"
+          d="M 154,162 L 218,162 L 220,194 L 154,194 Z"/>
+
+        <!-- DFW highlight ring — soft glow around the region -->
+        <rect x="112" y="124" width="114" height="76" rx="4"
+          fill="none" stroke="rgba(91,141,184,0.18)" stroke-width="1" stroke-dasharray="4 3"/>
 
         <!-- County labels -->
-        <text x="252" y="198" font-family="'Barlow Condensed'" font-size="9" fill="rgba(91,141,184,0.7)" text-anchor="middle" letter-spacing="1">TARRANT</text>
-        <text x="178" y="208" font-family="'Barlow Condensed'" font-size="8" fill="rgba(178,34,34,0.7)" text-anchor="middle" letter-spacing="1">PARKER</text>
-        <text x="210" y="128" font-family="'Barlow Condensed'" font-size="8" fill="rgba(91,141,184,0.7)" text-anchor="middle" letter-spacing="1">WISE</text>
+        <text x="186" y="150" font-family="'Barlow Condensed'" font-size="8.5" fill="rgba(91,141,184,0.75)" text-anchor="middle" letter-spacing="1.5">WISE</text>
+        <text x="136" y="182" font-family="'Barlow Condensed'" font-size="8" fill="rgba(178,34,34,0.75)" text-anchor="middle" letter-spacing="1">PARKER</text>
+        <text x="186" y="182" font-family="'Barlow Condensed'" font-size="8.5" fill="rgba(91,141,184,0.75)" text-anchor="middle" letter-spacing="1">TARRANT</text>
 
-        <!-- Azle dot -->
-        <circle cx="195" cy="178" r="4" fill="var(--cream)" opacity="0.8"/>
-        <text x="202" y="175" font-family="'Barlow Condensed'" font-size="7" fill="rgba(245,240,232,0.6)" letter-spacing="0.5">AZLE</text>
+        <!-- Fort Worth dot -->
+        <circle cx="184" cy="177" r="3.5" fill="rgba(91,141,184,0.9)"/>
+        <text x="192" y="174" font-family="'Barlow Condensed'" font-size="7" fill="rgba(245,240,232,0.55)" letter-spacing="0.5">FORT WORTH</text>
+
+        <!-- Azle dot — between Parker/Tarrant/Wise -->
+        <circle cx="155" cy="162" r="4" fill="var(--cream)"/>
+        <circle cx="155" cy="162" r="7" fill="none" stroke="rgba(245,240,232,0.3)" stroke-width="1">
+          <animate attributeName="r" values="7;11;7" dur="2.5s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="1;0;1" dur="2.5s" repeatCount="indefinite"/>
+        </circle>
+        <text x="162" y="158" font-family="'Barlow Condensed'" font-size="8" fill="var(--cream)" font-weight="600" letter-spacing="0.5">AZLE</text>
+
+        <!-- Dallas dot -->
+        <circle cx="228" cy="178" r="2.5" fill="rgba(245,240,232,0.4)"/>
+        <text x="234" y="175" font-family="'Barlow Condensed'" font-size="6.5" fill="rgba(245,240,232,0.35)" letter-spacing="0.5">DALLAS</text>
+
+        <!-- State label -->
+        <text x="155" y="310" font-family="'Barlow Condensed'" font-size="10" fill="rgba(91,141,184,0.18)" text-anchor="middle" letter-spacing="4" font-weight="600">TEXAS</text>
+
+        <!-- Star for Austin (state capital) -->
+        <polygon points="152,338 154,332 156,338 150,334 158,334" fill="rgba(245,240,232,0.12)"/>
       </svg>
     </div>
 
@@ -1288,9 +1700,9 @@
   </section>
 
   <!-- ═══════════════════════════════════════════════════════════
-       PHASE 2 TEASER
+       PHASE 2 TEASER — clickable demo portal
   ═══════════════════════════════════════════════════════════ -->
-  <section id="phase2" aria-label="Coming soon">
+  <section id="phase2" aria-label="Coming soon" onclick="openDemo()" role="button" tabindex="0">
     <p class="phase2-label" id="p2-label">Coming Soon</p>
     <h2 class="phase2-headline" id="p2-headline">
       Your account,<br>online.
@@ -1298,6 +1710,129 @@
     <p class="phase2-sub" id="p2-sub">
       Track deliveries, manage your tank, and schedule service from anywhere.
     </p>
+    <div id="p2-cta" class="phase2-cta" style="opacity:0;margin:0 auto;display:inline-flex;">
+      Preview the Portal
+      <svg width="14" height="14" viewBox="0 0 14 14" style="margin-left:0.4rem"><line x1="2" y1="7" x2="12" y2="7"/><polyline points="8,3 12,7 8,11"/></svg>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       DEMO PORTAL OVERLAY
+  ═══════════════════════════════════════════════════════════ -->
+  <div id="demo-overlay" role="dialog" aria-label="Account portal demo">
+    <div class="demo-window">
+      <span class="demo-badge">Demo Mode</span>
+      <button class="demo-close" onclick="closeDemo()" aria-label="Close demo">✕</button>
+
+      <!-- Sidebar -->
+      <nav class="demo-sidebar">
+        <div class="demo-logo">
+          <span>Rural Gas Supply</span>
+          <small>Customer Portal</small>
+        </div>
+        <div class="demo-nav-item active">
+          <svg viewBox="0 0 16 16"><rect x="2" y="2" width="5" height="5" rx="1"/><rect x="9" y="2" width="5" height="5" rx="1"/><rect x="2" y="9" width="5" height="5" rx="1"/><rect x="9" y="9" width="5" height="5" rx="1"/></svg>
+          Dashboard
+        </div>
+        <div class="demo-nav-item">
+          <svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="6"/><path d="M8 4v4l3 2"/></svg>
+          Delivery History
+        </div>
+        <div class="demo-nav-item">
+          <svg viewBox="0 0 16 16"><rect x="3" y="2" width="10" height="12" rx="1"/><line x1="6" y1="6" x2="10" y2="6"/><line x1="6" y1="9" x2="10" y2="9"/></svg>
+          Schedule Service
+        </div>
+        <div class="demo-nav-item">
+          <svg viewBox="0 0 16 16"><circle cx="8" cy="6" r="3"/><path d="M2 14c0-3.3 2.7-6 6-6s6 2.7 6 6"/></svg>
+          My Account
+        </div>
+      </nav>
+
+      <!-- Main Content -->
+      <div class="demo-main">
+        <div class="demo-header">
+          <div class="demo-greeting">
+            Good morning, Edwin.
+            <small>Last delivery: May 14, 2025 · Azle, TX</small>
+          </div>
+          <button class="demo-schedule-btn">+ Schedule Delivery</button>
+        </div>
+
+        <!-- Cards -->
+        <div class="demo-cards">
+          <div class="demo-card">
+            <div class="demo-card-label">Tank Level</div>
+            <div class="tank-gauge">
+              <div class="gauge-pct">65%</div>
+              <div class="gauge-bar"><div class="gauge-fill"></div></div>
+            </div>
+            <div class="demo-card-sub">500-gal · Est. 38 days remaining</div>
+          </div>
+          <div class="demo-card">
+            <div class="demo-card-label">Next Scheduled Delivery</div>
+            <div class="demo-card-value">Jun 28</div>
+            <div class="demo-card-sub">Auto-fill program · ~180 gal</div>
+          </div>
+          <div class="demo-card">
+            <div class="demo-card-label">Account Standing</div>
+            <div class="demo-card-value" style="color:#5cb85c;font-size:1.2rem;">Current</div>
+            <div class="demo-card-sub">Next invoice: Jul 5, 2025</div>
+          </div>
+          <div class="demo-card">
+            <div class="demo-card-label">Lifetime Deliveries</div>
+            <div class="demo-card-value">47</div>
+            <div class="demo-card-sub">Customer since 2009</div>
+          </div>
+        </div>
+
+        <!-- Delivery History -->
+        <div class="demo-table-title">Recent Delivery History</div>
+        <table class="demo-table">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Gallons</th>
+              <th>Driver</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>May 14, 2025</td><td>185 gal</td><td>Ray M.</td><td class="status-done">Delivered</td></tr>
+            <tr><td>Feb 3, 2025</td><td>210 gal</td><td>Dale H.</td><td class="status-done">Delivered</td></tr>
+            <tr><td>Nov 19, 2024</td><td>175 gal</td><td>Ray M.</td><td class="status-done">Delivered</td></tr>
+            <tr><td>Aug 27, 2024</td><td>195 gal</td><td>Dale H.</td><td class="status-done">Delivered</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       CONTACT / MAP
+  ═══════════════════════════════════════════════════════════ -->
+  <section id="contact" aria-label="Contact us">
+    <div class="contact-top">
+      <div class="contact-info">
+        <p class="section-eyebrow">Get In Touch</p>
+        <h2 class="contact-headline">We're in<br>Azle, Texas.</h2>
+        <div class="contact-detail">
+          <a href="tel:+18174443150">(817) 444-3150</a><br>
+          Azle, TX 76020<br><br>
+          Mon – Fri &nbsp;8am – 5pm<br>
+          Emergency line available<br>
+          24 hours, 7 days
+        </div>
+      </div>
+      <div class="contact-map-wrap">
+        <iframe
+          title="Rural Gas Supply Co. location — Azle, Texas"
+          src="https://maps.google.com/maps?q=Azle,Texas+76020&t=&z=13&ie=UTF8&iwloc=&output=embed"
+          allowfullscreen
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+      </div>
+    </div>
   </section>
 
   <!-- ═══════════════════════════════════════════════════════════
@@ -1364,64 +1899,70 @@
       gsap.set(cursorRing, { x: rx, y: ry });
     });
 
-    document.querySelectorAll('a, button, .btn-cta, .panel-link').forEach(el => {
+    document.querySelectorAll('a, button, .btn-cta, .panel-link, #phase2').forEach(el => {
       el.addEventListener('mouseenter', () => cursor.classList.add('expanded'));
       el.addEventListener('mouseleave', () => cursor.classList.remove('expanded'));
     });
 
-    /* ── Hero Video → UI Reveal ────────────────────────────── */
+    /* ── Hero: one-time video intro via localStorage ───────── */
     const video = document.getElementById('hero-video');
-    const heroUI = document.querySelectorAll('.hero-ui');
+    const hasSeenIntro = localStorage.getItem('rgs_intro_seen');
 
-    function revealHeroUI() {
+    function revealHeroUI(instant) {
+      document.getElementById('skip-hint').classList.remove('visible');
+
       const tl = gsap.timeline();
+      const dur = instant ? 0 : 0.9;
 
-      // Topbar slides down
-      tl.to('#topbar', {
-        y: 0,
-        opacity: 1,
-        duration: 0.9,
-        ease: 'power3.out',
-        pointerEvents: 'auto'
-      }, 0);
+      tl.to('#topbar',        { y: 0, opacity: 1, duration: dur, ease: 'power3.out', pointerEvents: 'auto' }, 0);
+      tl.to('#hero-quote',    { opacity: 1, x: 0, duration: instant ? 0 : 1, ease: 'power3.out', pointerEvents: 'auto' }, instant ? 0 : 0.15);
+      tl.to('#hero-stat',     { opacity: 1, duration: instant ? 0 : 0.8, ease: 'power2.out', pointerEvents: 'auto' }, instant ? 0 : 0.35);
+      tl.to('#scroll-indicator', { opacity: 1, duration: instant ? 0 : 0.7, ease: 'power2.out', pointerEvents: 'auto' }, instant ? 0 : 0.45);
 
-      // Quote block slides in from left
-      tl.to('#hero-quote', {
-        opacity: 1,
-        x: 0,
-        duration: 1,
-        ease: 'power3.out',
-        pointerEvents: 'auto'
-      }, 0.15);
-
-      // Stat line
-      tl.to('#hero-stat', {
-        opacity: 1,
-        duration: 0.8,
-        ease: 'power2.out',
-        pointerEvents: 'auto'
-      }, 0.35);
-
-      // Scroll indicator
-      tl.to('#scroll-indicator', {
-        opacity: 1,
-        duration: 0.7,
-        ease: 'power2.out',
-        pointerEvents: 'auto'
-      }, 0.45);
+      if (!instant) quoteInterval = setInterval(rotateQuote, 4000);
+      localStorage.setItem('rgs_intro_seen', '1');
     }
 
-    // Set initial states
     gsap.set('#hero-quote', { x: -60 });
     gsap.set('#topbar', { opacity: 0 });
 
-    video.addEventListener('ended', revealHeroUI);
+    if (hasSeenIntro) {
+      // Repeat visit: skip video, show UI immediately
+      video.style.display = 'none';
+      document.getElementById('hero-fallback').style.background = '#0d0d0d';
+      revealHeroUI(true);
+      quoteInterval = setInterval(rotateQuote, 4000);
+    } else {
+      // First visit: play video, reveal UI on end
+      video.addEventListener('ended', () => revealHeroUI(false));
+      video.addEventListener('error', () => revealHeroUI(false));
 
-    // Fallback: if video errors or takes too long, reveal UI anyway
-    video.addEventListener('error', revealHeroUI);
-    setTimeout(() => {
-      if (video.paused || video.ended || video.currentTime === 0) revealHeroUI();
-    }, 8000);
+      // Show skip hint after 2 seconds
+      setTimeout(() => {
+        if (!video.ended && !video.paused) {
+          document.getElementById('skip-hint').classList.add('visible');
+        }
+      }, 2000);
+
+      // Click anywhere to skip video
+      document.getElementById('hero').addEventListener('click', () => {
+        if (!video.ended) {
+          video.pause();
+          gsap.to(video, { opacity: 0, duration: 0.4, onComplete: () => {
+            video.style.display = 'none';
+          }});
+          revealHeroUI(false);
+        }
+      }, { once: true });
+
+      // Hard fallback — reveal after 12s regardless
+      setTimeout(() => {
+        if (document.querySelector('.hero-ui').style.opacity === '0' ||
+            document.querySelector('.hero-ui').style.opacity === '') {
+          revealHeroUI(false);
+        }
+      }, 12000);
+    }
 
     /* ── Quote Rotation ────────────────────────────────────── */
     const quotes = document.querySelectorAll('.quote-line');
@@ -1435,7 +1976,7 @@
       gsap.to(quotes[prev], { opacity: 0, y: -12, duration: 0.5, ease: 'power2.in', onComplete: () => {
         quotes[prev].classList.remove('active');
         quotes[prev].style.display = 'none';
-        quotes[prev].style.opacity = 1;
+        quotes[prev].style.opacity = '';
         quotes[prev].style.transform = '';
       }});
 
@@ -1448,10 +1989,6 @@
         );
       }, 520);
     }
-
-    video.addEventListener('ended', () => {
-      quoteInterval = setInterval(rotateQuote, 4000);
-    });
 
     /* ── Nav scroll state ──────────────────────────────────── */
     ScrollTrigger.create({
@@ -1469,13 +2006,13 @@
       onUpdate: self => {
         const ghost = document.getElementById('year-ghost');
         const p = self.progress;
-        const opacity = Math.min(p * 2, 0.45);
         ghost.style.webkitTextStroke = `1px rgba(91,141,184,${0.25 + p * 0.4})`;
         ghost.style.color = `rgba(91,141,184,${p * 0.45})`;
       }
     });
 
     /* Heritage image clip-path wipe */
+    gsap.set('#heritage-frame', { clipPath: 'inset(100% 0 0 0)' });
     gsap.to('#heritage-frame', {
       clipPath: 'inset(0% 0 0 0)',
       duration: 1.2,
@@ -1486,13 +2023,12 @@
         toggleActions: 'play none none none'
       }
     });
-    gsap.set('#heritage-frame', { clipPath: 'inset(100% 0 0 0)' });
 
     /* ── Services: Horizontal Scroll ──────────────────────── */
     const track = document.getElementById('services-track');
     const panels = document.querySelectorAll('.service-panel');
     const totalPanels = panels.length;
-    const totalWidth = (totalPanels - 1) * 100; // in vw
+    const totalWidth = (totalPanels - 1) * 100;
 
     const servicesPin = gsap.timeline({
       scrollTrigger: {
@@ -1520,48 +2056,33 @@
       ease: 'none'
     });
 
-    /* Panel title clip-path reveals — triggered by horizontal progress */
+    /* Panel title clip-path reveals */
     const panelTitles = Array.from(panels).map(p => p.querySelector('.panel-title'));
     panelTitles.forEach(t => { if (t) gsap.set(t, { clipPath: 'inset(0 100% 0 0)' }); });
 
     const revealedPanels = new Set();
-
     ScrollTrigger.create({
       trigger: '#services-wrapper',
       start: 'top top',
       end: () => `+=${totalWidth * (window.innerWidth / 100)}`,
       onUpdate: self => {
-        const idx = Math.floor(self.progress * totalPanels);
-        const safeIdx = Math.min(idx, totalPanels - 1);
-        if (!revealedPanels.has(safeIdx) && panelTitles[safeIdx]) {
-          revealedPanels.add(safeIdx);
-          gsap.to(panelTitles[safeIdx], {
-            clipPath: 'inset(0 0% 0 0)',
-            duration: 0.9,
-            ease: 'power3.out'
-          });
+        const idx = Math.min(Math.floor(self.progress * totalPanels), totalPanels - 1);
+        if (!revealedPanels.has(idx) && panelTitles[idx]) {
+          revealedPanels.add(idx);
+          gsap.to(panelTitles[idx], { clipPath: 'inset(0 0% 0 0)', duration: 0.9, ease: 'power3.out' });
         }
       }
     });
 
     /* ── Stats Counters ────────────────────────────────────── */
-    function animateCounter(el, target, duration = 2) {
-      let start = 0;
-      const isYear = target === 1946;
-      if (isYear) start = 1900;
-
+    function animateCounter(el, target, duration) {
+      const start = target === 1946 ? 1900 : 0;
       gsap.to({ val: start }, {
         val: target,
         duration,
         ease: 'power2.out',
-        onUpdate: function() {
-          el.textContent = Math.round(this.targets()[0].val).toLocaleString();
-        },
-        scrollTrigger: {
-          trigger: '#stats',
-          start: 'top 70%',
-          once: true
-        }
+        onUpdate: function() { el.textContent = Math.round(this.targets()[0].val).toLocaleString(); },
+        scrollTrigger: { trigger: '#stats', start: 'top 70%', once: true }
       });
     }
 
@@ -1581,18 +2102,51 @@
       once: true
     });
 
-    /* ── Phase 2 Teaser ────────────────────────────────────── */
-    gsap.set('#phase2 .phase2-label', { opacity: 0, y: 20 });
-    gsap.set('#phase2 .phase2-sub', { opacity: 0, y: 20 });
+    /* ── Phase 2: Teaser animations + keyboard accessibility ── */
+    gsap.set(['#p2-label', '#p2-sub', '#p2-cta'], { opacity: 0, y: 20 });
 
     ScrollTrigger.create({
       trigger: '#phase2',
       start: 'top 65%',
       onEnter: () => {
         gsap.to('#p2-label', { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' });
-        gsap.to('#p2-sub', { opacity: 1, y: 0, duration: 0.8, delay: 0.3, ease: 'power3.out' });
+        gsap.to('#p2-sub',   { opacity: 1, y: 0, duration: 0.8, delay: 0.25, ease: 'power3.out' });
+        gsap.to('#p2-cta',   { opacity: 1, y: 0, duration: 0.8, delay: 0.5,  ease: 'power3.out' });
       },
       once: true
+    });
+
+    document.getElementById('phase2').addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') openDemo();
+    });
+
+    /* ── Demo Portal ───────────────────────────────────────── */
+    function openDemo() {
+      const overlay = document.getElementById('demo-overlay');
+      overlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      gsap.fromTo('.demo-window',
+        { scale: 0.92, opacity: 0 },
+        { scale: 1, opacity: 1, duration: 0.5, ease: 'power3.out' }
+      );
+    }
+
+    function closeDemo() {
+      gsap.to('.demo-window', {
+        scale: 0.94, opacity: 0, duration: 0.3, ease: 'power2.in',
+        onComplete: () => {
+          document.getElementById('demo-overlay').classList.remove('open');
+          document.body.style.overflow = '';
+        }
+      });
+    }
+
+    document.getElementById('demo-overlay').addEventListener('click', e => {
+      if (e.target === document.getElementById('demo-overlay')) closeDemo();
+    });
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') closeDemo();
     });
 
     /* ── Magnetic CTAs ─────────────────────────────────────── */
@@ -1608,7 +2162,6 @@
       });
     });
 
-    /* ── Refresh ScrollTrigger on resize ──────────────────── */
     window.addEventListener('resize', () => ScrollTrigger.refresh());
   </script>
 </body>

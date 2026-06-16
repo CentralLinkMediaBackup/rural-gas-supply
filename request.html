@@ -87,7 +87,6 @@
 
     .nav-logo img {
       height: 38px;
-      filter: brightness(0) invert(1);
     }
 
     .nav-back {
@@ -169,18 +168,26 @@
 
     .left-contact p {
       font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.72rem;
-      font-weight: 300;
-      letter-spacing: 0.08em;
-      color: rgba(245,240,232,0.3);
-      line-height: 1.8;
+      font-size: 0.9rem;
+      font-weight: 400;
+      letter-spacing: 0.06em;
+      color: rgba(245,240,232,0.6);
+      line-height: 1.9;
     }
 
     .left-contact a {
-      color: rgba(245,240,232,0.6);
+      color: var(--cream);
       text-decoration: none;
+      font-weight: 500;
     }
-    .left-contact a:hover { color: var(--cream); }
+    .left-contact a:hover { color: var(--steel); }
+
+    /* Customer ID field — shown only for existing customers */
+    #customer-id-field {
+      display: none;
+      margin-top: 1.25rem;
+    }
+    #customer-id-field.visible { display: flex; flex-direction: column; gap: 0.4rem; }
 
     .left-year-ghost {
       position: absolute;
@@ -580,6 +587,12 @@
           </div>
         </div>
 
+        <!-- Customer ID — visible only for existing customers -->
+        <div id="customer-id-field">
+          <label for="customer-id">Customer ID #</label>
+          <input type="text" id="customer-id" name="customer_id" placeholder="e.g. RGS-00412" autocomplete="off" />
+        </div>
+
         <!-- Service Type -->
         <p class="form-section-title">Service Details</p>
         <div class="form-row">
@@ -757,6 +770,22 @@
     });
     gsap.from('.right-panel', {
       x: 40, opacity: 0, duration: 1, ease: 'power3.out', delay: 0.2
+    });
+
+    /* ── Existing Customer: reveal Customer ID field ───────── */
+    document.querySelectorAll('input[name="customer_type"]').forEach(radio => {
+      radio.addEventListener('change', () => {
+        const field = document.getElementById('customer-id-field');
+        if (radio.value === 'existing' && radio.checked) {
+          field.classList.add('visible');
+          gsap.fromTo(field,
+            { opacity: 0, y: -8 },
+            { opacity: 1, y: 0, duration: 0.35, ease: 'power2.out' }
+          );
+        } else {
+          field.classList.remove('visible');
+        }
+      });
     });
   </script>
 </body>
