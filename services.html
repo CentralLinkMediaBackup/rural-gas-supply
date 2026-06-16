@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Services — Rural Gas Supply Co.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Barlow+Condensed:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --steel: #5B8DB8;
+      --red:   #B22222;
+      --black: #1A1A1A;
+      --cream: #F5F0E8;
+      --nav-h: 70px;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--black);
+      color: var(--cream);
+      font-family: 'Barlow Condensed', sans-serif;
+      min-height: 100vh;
+    }
+
+    /* ── Nav ── */
+    #topbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: var(--nav-h);
+      z-index: 100;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      padding: 0 2.5rem;
+      background: rgba(26,26,26,0.96);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(245,240,232,0.06);
+    }
+
+    .nav-logo img { height: 40px; width: auto; }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+    .nav-links a {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 500;
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(245,240,232,0.8);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover, .nav-links a.active { color: var(--cream); }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      justify-content: flex-end;
+    }
+    .nav-phone {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      color: rgba(245,240,232,0.7);
+      text-transform: uppercase;
+    }
+    .btn-cta {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--cream);
+      background: var(--red);
+      border: 1px solid var(--red);
+      padding: 0.55rem 1.4rem;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s, border-color 0.2s;
+      display: inline-flex;
+      align-items: center;
+    }
+    .btn-cta:hover { background: #8b1a1a; border-color: #8b1a1a; }
+    .btn-cta.ghost { background: transparent; border-color: rgba(245,240,232,0.2); }
+    .btn-cta.ghost:hover { border-color: var(--cream); background: transparent; }
+
+    /* ── Hero ── */
+    .page-hero {
+      padding: calc(var(--nav-h) + 6rem) 5vw 5rem;
+      position: relative;
+      overflow: hidden;
+      border-bottom: 1px solid rgba(245,240,232,0.06);
+    }
+
+    .page-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 80% 50%, rgba(91,141,184,0.08) 0%, transparent 65%);
+      pointer-events: none;
+    }
+
+    .hero-eyebrow {
+      font-size: 0.62rem;
+      font-weight: 600;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--steel);
+      margin-bottom: 1.2rem;
+    }
+
+    .hero-headline {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem, 6vw, 5.5rem);
+      font-weight: 700;
+      color: var(--cream);
+      line-height: 1.05;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-headline em {
+      font-style: italic;
+      color: var(--steel);
+    }
+
+    .hero-sub {
+      font-size: 1rem;
+      font-weight: 300;
+      color: rgba(245,240,232,0.5);
+      max-width: 480px;
+      line-height: 1.8;
+      letter-spacing: 0.02em;
+    }
+
+    /* ── Service Grid ── */
+    .services-section {
+      padding: 6rem 5vw;
+    }
+
+    .section-label {
+      font-size: 0.58rem;
+      font-weight: 700;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--steel);
+      margin-bottom: 0.8rem;
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 3vw, 2.8rem);
+      color: var(--cream);
+      margin-bottom: 3.5rem;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5px;
+    }
+
+    @media (max-width: 900px) {
+      .services-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 580px) {
+      .services-grid { grid-template-columns: 1fr; }
+    }
+
+    .service-card {
+      position: relative;
+      overflow: hidden;
+      aspect-ratio: 4/3;
+      cursor: default;
+    }
+
+    .service-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.7s ease;
+      filter: brightness(0.55);
+    }
+
+    .service-card:hover img {
+      transform: scale(1.06);
+      filter: brightness(0.4);
+    }
+
+    .card-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(26,26,26,0.9) 0%, transparent 60%);
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      transition: background 0.4s;
+    }
+
+    .service-card:hover .card-overlay {
+      background: linear-gradient(to top, rgba(26,26,26,0.97) 0%, rgba(26,26,26,0.5) 60%);
+    }
+
+    .card-number {
+      font-size: 0.55rem;
+      font-weight: 700;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--steel);
+      margin-bottom: 0.5rem;
+      opacity: 0.8;
+    }
+
+    .card-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      color: var(--cream);
+      margin-bottom: 0.6rem;
+    }
+
+    .card-desc {
+      font-size: 0.82rem;
+      font-weight: 300;
+      color: rgba(245,240,232,0.55);
+      line-height: 1.7;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.5s ease, opacity 0.4s ease;
+      opacity: 0;
+      letter-spacing: 0.02em;
+    }
+
+    .service-card:hover .card-desc {
+      max-height: 120px;
+      opacity: 1;
+    }
+
+    .card-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--steel);
+      text-decoration: none;
+      margin-top: 1rem;
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      transition: max-height 0.5s ease, opacity 0.4s ease 0.1s;
+    }
+
+    .service-card:hover .card-cta {
+      max-height: 40px;
+      opacity: 1;
+    }
+
+    /* ── Process Strip ── */
+    .process-section {
+      padding: 5rem 5vw;
+      border-top: 1px solid rgba(245,240,232,0.06);
+      border-bottom: 1px solid rgba(245,240,232,0.06);
+      background: rgba(91,141,184,0.03);
+    }
+
+    .process-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 3rem;
+      margin-top: 3.5rem;
+    }
+
+    @media (max-width: 768px) {
+      .process-grid { grid-template-columns: repeat(2, 1fr); gap: 2rem; }
+    }
+
+    .process-step {
+      position: relative;
+    }
+
+    .step-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 3.5rem;
+      font-weight: 700;
+      color: rgba(91,141,184,0.15);
+      line-height: 1;
+      margin-bottom: 1rem;
+    }
+
+    .step-title {
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--cream);
+      margin-bottom: 0.6rem;
+    }
+
+    .step-desc {
+      font-size: 0.82rem;
+      font-weight: 300;
+      color: rgba(245,240,232,0.45);
+      line-height: 1.7;
+    }
+
+    /* ── CTA Banner ── */
+    .cta-banner {
+      padding: 6rem 5vw;
+      text-align: center;
+    }
+
+    .cta-banner h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      color: var(--cream);
+      margin-bottom: 1.2rem;
+    }
+
+    .cta-banner h2 em {
+      font-style: italic;
+      color: var(--steel);
+    }
+
+    .cta-banner p {
+      font-size: 0.95rem;
+      font-weight: 300;
+      color: rgba(245,240,232,0.45);
+      margin-bottom: 2.5rem;
+      letter-spacing: 0.04em;
+    }
+
+    .cta-btns {
+      display: flex;
+      gap: 1.2rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--cream);
+      background: var(--red);
+      border: 1px solid var(--red);
+      padding: 0.95rem 2.5rem;
+      text-decoration: none;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .btn-primary:hover { background: #8b1a1a; border-color: #8b1a1a; }
+
+    .btn-secondary {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--cream);
+      background: transparent;
+      border: 1px solid rgba(245,240,232,0.2);
+      padding: 0.95rem 2.5rem;
+      text-decoration: none;
+      transition: border-color 0.2s;
+    }
+    .btn-secondary:hover { border-color: var(--cream); }
+
+    /* ── Footer ── */
+    #footer {
+      background: var(--black);
+      border-top: 1px solid rgba(245,240,232,0.06);
+      padding: 2.5rem 5vw;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    .footer-bottom-text {
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      color: rgba(245,240,232,0.3);
+      text-align: center;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 2rem;
+      justify-content: flex-end;
+    }
+
+    .footer-links a {
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      color: rgba(245,240,232,0.4);
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: rgba(245,240,232,0.7); }
+
+    @media (max-width: 640px) {
+      #footer { grid-template-columns: 1fr; text-align: center; }
+      .footer-links { justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <header id="topbar">
+    <div class="nav-logo">
+      <a href="/"><img src="/assets/images/logo.png" alt="Rural Gas Supply Co." /></a>
+    </div>
+    <nav aria-label="Main navigation">
+      <ul class="nav-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="services.html" class="active">Services</a></li>
+        <li><a href="service-area.html">Service Area</a></li>
+        <li><a href="request.html">Request Service</a></li>
+      </ul>
+    </nav>
+    <div class="nav-right">
+      <span class="nav-phone">(817) 444-3150</span>
+      <a href="contact.html" class="btn-cta ghost">Contact Us</a>
+      <a href="customer.html" class="btn-cta">Existing Customer?</a>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- Hero -->
+    <section class="page-hero">
+      <p class="hero-eyebrow">What We Do</p>
+      <h1 class="hero-headline">Propane<br>solutions for<br><em>every need.</em></h1>
+      <p class="hero-sub">From a single cylinder refill to a full commercial tank installation — Rural Gas Supply has served North Texas since 1946 with the same honest, dependable service.</p>
+    </section>
+
+    <!-- Service Cards -->
+    <section class="services-section">
+      <p class="section-label">Our Services</p>
+      <h2 class="section-title">Six ways we serve you.</h2>
+
+      <div class="services-grid">
+
+        <!-- 1 — Residential -->
+        <div class="service-card">
+          <img
+            src="https://images.unsplash.com/photo-1570129477492-45c003dc2a3c?w=800&auto=format&fit=crop&q=80"
+            alt="Residential propane delivery"
+            loading="lazy"
+          />
+          <div class="card-overlay">
+            <p class="card-number">01 — Residential</p>
+            <h3 class="card-title">Home Delivery</h3>
+            <p class="card-desc">Reliable propane delivery to your home for heating, cooking, water heating, and backup power. Flexible schedules, automatic delivery options, and competitive per-gallon pricing.</p>
+            <a href="request.html" class="card-cta">Request Delivery →</a>
+          </div>
+        </div>
+
+        <!-- 2 — Commercial -->
+        <div class="service-card">
+          <img
+            src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&auto=format&fit=crop&q=80"
+            alt="Commercial propane supply"
+            loading="lazy"
+          />
+          <div class="card-overlay">
+            <p class="card-number">02 — Commercial</p>
+            <h3 class="card-title">Business Supply</h3>
+            <p class="card-desc">High-volume propane supply for restaurants, warehouses, manufacturing facilities, and commercial operations. Volume pricing, scheduled maintenance, and dedicated account reps.</p>
+            <a href="request.html" class="card-cta">Get a Quote →</a>
+          </div>
+        </div>
+
+        <!-- 3 — Agricultural -->
+        <div class="service-card">
+          <img
+            src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=800&auto=format&fit=crop&q=80"
+            alt="Agricultural propane services"
+            loading="lazy"
+          />
+          <div class="card-overlay">
+            <p class="card-number">03 — Agricultural</p>
+            <h3 class="card-title">Farm &amp; Ranch</h3>
+            <p class="card-desc">Bulk propane for grain drying, irrigation engines, livestock heating, and crop drying operations across Parker, Tarrant, and Wise counties. We keep your operation running.</p>
+            <a href="request.html" class="card-cta">Schedule Delivery →</a>
+          </div>
+        </div>
+
+        <!-- 4 — Tank Installation -->
+        <div class="service-card">
+          <img
+            src="https://images.unsplash.com/photo-1581093458791-9f3c3ae78693?w=800&auto=format&fit=crop&q=80"
+            alt="Propane tank installation"
+            loading="lazy"
+          />
+          <div class="card-overlay">
+            <p class="card-number">04 — Installation</p>
+            <h3 class="card-title">Tank Installation</h3>
+            <p class="card-desc">Professional above-ground and underground tank installation for residential and commercial customers. We handle permits, excavation, plumbing connections, and safety inspections.</p>
+            <a href="request.html" class="card-cta">Get Installed →</a>
+          </div>
+        </div>
+
+        <!-- 5 — Tank Leasing -->
+        <div class="service-card">
+          <img
+            src="https://images.unsplash.com/photo-1589939705384-5185137a7f0f?w=800&auto=format&fit=crop&q=80"
+            alt="Propane tank leasing"
+            loading="lazy"
+          />
+          <div class="card-overlay">
+            <p class="card-number">05 — Leasing</p>
+            <h3 class="card-title">Tank Leasing</h3>
+            <p class="card-desc">No upfront cost. Lease a 120 to 1,000-gallon tank for a low monthly rate. Includes annual safety checks, maintenance, and priority delivery scheduling for lease customers.</p>
+            <a href="request.html" class="card-cta">Start Leasing →</a>
+          </div>
+        </div>
+
+        <!-- 6 — Cylinder Refills -->
+        <div class="service-card">
+          <img
+            src="https://images.unsplash.com/photo-1605371924599-2d0365da1ae0?w=800&auto=format&fit=crop&q=80"
+            alt="Propane cylinder refill"
+            loading="lazy"
+          />
+          <div class="card-overlay">
+            <p class="card-number">06 — Cylinders</p>
+            <h3 class="card-title">Cylinder Refills</h3>
+            <p class="card-desc">Quick, accurate refills for BBQ grills, forklifts, patio heaters, and portable appliances. Bring in your empty cylinder or schedule a swap. No appointment needed for walk-ins.</p>
+            <a href="contact.html" class="card-cta">Find Location →</a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="process-section">
+      <p class="section-label">The Process</p>
+      <h2 class="section-title">Simple as four steps.</h2>
+      <div class="process-grid">
+        <div class="process-step">
+          <p class="step-num">01</p>
+          <p class="step-title">Request Service</p>
+          <p class="step-desc">Fill out our short form online or call us direct at (817) 444-3150. Tell us what you need and when works for you.</p>
+        </div>
+        <div class="process-step">
+          <p class="step-num">02</p>
+          <p class="step-title">We Confirm</p>
+          <p class="step-desc">A real person calls or texts you back within 24 hours to confirm the details, give you a price, and schedule the visit.</p>
+        </div>
+        <div class="process-step">
+          <p class="step-num">03</p>
+          <p class="step-title">We Show Up</p>
+          <p class="step-desc">Our licensed technicians arrive on time. We do the work right the first time, every time — no shortcuts, no surprises.</p>
+        </div>
+        <div class="process-step">
+          <p class="step-num">04</p>
+          <p class="step-title">You're Set</p>
+          <p class="step-desc">Full tank, working equipment, safety checklist complete. Track your next delivery online with your customer account.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Banner -->
+    <section class="cta-banner">
+      <h2>Ready to get started<br>with <em>Rural Gas?</em></h2>
+      <p>Serving Azle and surrounding communities for over 75 years.</p>
+      <div class="cta-btns">
+        <a href="request.html" class="btn-primary">Request Service</a>
+        <a href="contact.html" class="btn-secondary">Call Us Now</a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer id="footer">
+    <div>
+      <img src="/assets/images/logo.png" alt="Rural Gas Supply Co." style="height:30px;opacity:0.65;" />
+    </div>
+    <p class="footer-bottom-text">© 2026 Rural Gas Supply Co. · Family Owned Since 1946 · Azle, Texas</p>
+    <div class="footer-links">
+      <a href="tel:+18174443150">(817) 444-3150</a>
+      <a href="contact.html">Contact</a>
+      <a href="service-area.html">Service Area</a>
+    </div>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script>
+    gsap.registerPlugin(ScrollTrigger);
+
+    gsap.from('.hero-eyebrow', { y: 20, opacity: 0, duration: 0.8, delay: 0.2 });
+    gsap.from('.hero-headline', { y: 40, opacity: 0, duration: 1, delay: 0.35, ease: 'power3.out' });
+    gsap.from('.hero-sub', { y: 20, opacity: 0, duration: 0.8, delay: 0.55 });
+
+    gsap.utils.toArray('.service-card').forEach((card, i) => {
+      gsap.from(card, {
+        scrollTrigger: { trigger: card, start: 'top 85%' },
+        y: 40,
+        opacity: 0,
+        duration: 0.7,
+        delay: (i % 3) * 0.1,
+        ease: 'power3.out'
+      });
+    });
+
+    gsap.utils.toArray('.process-step').forEach((step, i) => {
+      gsap.from(step, {
+        scrollTrigger: { trigger: step, start: 'top 88%' },
+        y: 30,
+        opacity: 0,
+        duration: 0.6,
+        delay: i * 0.12,
+        ease: 'power2.out'
+      });
+    });
+
+    gsap.from('.cta-banner h2', {
+      scrollTrigger: { trigger: '.cta-banner', start: 'top 80%' },
+      y: 30,
+      opacity: 0,
+      duration: 0.8,
+      ease: 'power3.out'
+    });
+    gsap.from('.cta-btns', {
+      scrollTrigger: { trigger: '.cta-banner', start: 'top 75%' },
+      y: 20,
+      opacity: 0,
+      duration: 0.7,
+      delay: 0.25
+    });
+  </script>
+</body>
+</html>
