@@ -1926,6 +1926,10 @@
     gsap.set('#hero-quote', { x: -60 });
     gsap.set('#topbar', { opacity: 0 });
 
+    const quotes = document.querySelectorAll('.quote-line');
+    let currentQuote = 0;
+    let quoteInterval;
+
     if (hasSeenIntro) {
       // Repeat visit: skip video, show UI immediately
       video.style.display = 'none';
@@ -1963,10 +1967,6 @@
     }
 
     /* ── Quote Rotation ────────────────────────────────────── */
-    const quotes = document.querySelectorAll('.quote-line');
-    let currentQuote = 0;
-    let quoteInterval;
-
     function rotateQuote() {
       const prev = currentQuote;
       currentQuote = (currentQuote + 1) % quotes.length;
